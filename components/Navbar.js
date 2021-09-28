@@ -25,6 +25,11 @@ function Navbar() {
     <nav css={navContainerStyle}>
       <ul css={navBarStyle}>
         <li css={navbarItemStyle}>
+          <Link href="/">
+            <a css={navbarLinkStyle}>Home</a>
+          </Link>
+        </li>
+        <li css={navbarItemStyle}>
           <Link href="/products">
             <a css={navbarLinkStyle}>Products</a>
           </Link>
