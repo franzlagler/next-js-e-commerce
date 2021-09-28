@@ -8,6 +8,7 @@ export default function Home() {
         <title>American Products</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <h1>American Products</h1>
     </div>
   );
 }
