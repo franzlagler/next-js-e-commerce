@@ -1,9 +1,8 @@
 import { css } from '@emotion/react';
 import Image from 'next/image';
-import Link from 'next/link';
+import { useState } from 'react';
 import AddToCartButton from '../../components/AddToCartButton';
 import AmountInput from '../../components/AmountInput';
-import image11 from '../../public/images/product11.svg';
 
 const productsContainerStyle = css`
   display: flex;
@@ -14,7 +13,8 @@ const productsContainerStyle = css`
 
 const singleProductContainerStyle = css`
   display: grid;
-  row-gap: 15px;
+  align-items: center;
+  row-gap: 25px;
   width: 360px;
   height: 100%;
   padding: 20px 40px;
@@ -35,29 +35,98 @@ const productHyperlinkStyle = css`
   cursor: pointer;
 `;
 
-function products({ productData }) {
-  const handleAmountChange = (e) => {
-    const input = e.currentTarget.value;
-    if (input > 9) {
-      e.preventDefault();
+const productImageStyle = css``;
+
+function Products({ productData }) {
+  const [amount, setAmount] = useState(() => {
+    const valueArray = [];
+    for (let i = 0; i < productData.length; i++) {
+      valueArray.push(1);
+    }
+    return valueArray;
+  });
+
+  const handleIncrementDecrementClick = (e) => {
+    const index = e.currentTarget.id - 1;
+    const buttonName = e.currentTarget.name;
+    console.log(index, buttonName);
+
+    if (amount[index] >= 2 && amount[index] <= 8) {
+      if (buttonName === 'increment') {
+        setAmount(
+          amount.map((el, i) => {
+            if (i === index) {
+              return el + 1;
+            }
+            return el;
+          }),
+        );
+        return;
+      }
+      setAmount(
+        amount.map((el, i) => {
+          if (i === index) {
+            return el - 1;
+          }
+          return el;
+        }),
+      );
+      return;
+    } else if (amount[index] === 1) {
+      if (buttonName === 'increment') {
+        setAmount(
+          amount.map((el, i) => {
+            if (i === index) {
+              return el + 1;
+            }
+            return el;
+          }),
+        );
+        console.log('hello');
+        return;
+      }
+
+      return;
+    } else if (amount[index] === 9) {
+      if (buttonName === 'increment') {
+        return;
+      }
+      setAmount(
+        amount.map((el, i) => {
+          if (i === index) {
+            return el + 1;
+          }
+          return el;
+        }),
+      );
+      return;
     }
   };
+
   return (
     <div css={productsContainerStyle}>
       {productData.map((product) => {
         return (
           <div key={`product-${product.id}`}>
-            {/*<Link href={`/products/${product.keyword}`}>*/}
             <a css={productHyperlinkStyle}>
               <div css={singleProductContainerStyle}>
                 <h2>{product.name}</h2>
-                <Image src={image11} alt="product" />
+                <Image
+                  src={product.image}
+                  alt="product"
+                  width="80"
+                  height="80"
+                  css={productImageStyle}
+                />
                 <p>{product.price.toFixed(2)}€</p>
-                <AmountInput />
+                <AmountInput
+                  value={amount[product.id - 1]}
+                  id={product.id}
+                  handleIncrementDecrementClick={handleIncrementDecrementClick}
+                />
                 <AddToCartButton />
               </div>
             </a>
-            {/*  </Link> */}
           </div>
         );
       })}
@@ -65,7 +134,7 @@ function products({ productData }) {
   );
 }
 
-export default products;
+export default Products;
 
 export async function getServerSideProps() {
   const { productData } = await import('../../util/productData');

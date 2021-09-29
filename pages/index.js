@@ -10,7 +10,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h1>American Products</h1>
-      <Image src={uncleSam} alt="Uncle Sam" />
+      <Image src={uncleSam} alt="Uncle Sam" layout="fill" />
     </div>
   );
 }
