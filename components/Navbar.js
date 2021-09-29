@@ -2,12 +2,18 @@ import { css } from '@emotion/react';
 import Link from 'next/link';
 
 const navContainerStyle = css`
-  background-color: blue;
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  background-color: #72c2e9;
+  border-bottom: 2px solid black;
 `;
 
 const navBarStyle = css`
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px 0;
   display: flex;
-  padding: 20px;
   grid-gap: 30px;
 `;
 
@@ -16,8 +22,11 @@ const navbarItemStyle = css`
 `;
 
 const navbarLinkStyle = css`
-  color: white;
+  color: #212529;
   cursor: pointer;
+  &:hover {
+    color: #000;
+  }
 `;
 
 function Navbar() {

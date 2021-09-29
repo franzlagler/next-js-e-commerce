@@ -1,8 +1,11 @@
 import { css } from '@emotion/react';
+import Head from 'next/head';
 import Navbar from './Navbar';
 
 const mainContainerStyle = css`
-  max-width: 800px;
+  position: relative;
+  top: 50px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 3% 0;
 `;
