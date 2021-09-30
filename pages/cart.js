@@ -39,12 +39,13 @@ function Cart(props) {
   const [totalPrice, setTotalPrice] = useState(0);
 
   const handleDeleteProductClick = (id) => {
-    let currentOrder = [...order];
-    currentOrder = currentOrder.filter((el) => {
-      return el['id'] !== id;
+    props.handleSelectedProductNumberChange((prev) => prev - 1);
+    const currentCookies = cookies.filter((el) => el['id'] !== id);
+    console.log(currentCookies);
+    setCookies(() => {
+      Cookies.set('order', JSON.stringify(currentCookies));
+      return JSON.parse(Cookies.get('order'));
     });
-
-    setOrder(currentOrder);
   };
 
   // Fetch Cookie at first run
@@ -56,8 +57,8 @@ function Cart(props) {
 
   useEffect(() => {
     const chosenProducts = [];
-
     for (let i = 0; i < cookies.length; i++) {
+      console.log(cookies);
       for (let j = 0; j < props.productData.length; j++) {
         if (cookies[i].id === props.productData[j].id) {
           chosenProducts.push(props.productData[j]);
@@ -73,14 +74,13 @@ function Cart(props) {
       const allPrices = order.map((el) => el.price * el.amount);
       const total = allPrices.reduce((acc, nextVal) => (acc += nextVal), 0);
       setTotalPrice(total.toFixed(2));
-      Cookies.set('order', JSON.stringify(order));
     });
   }, [order]);
 
   return (
     <div css={orderContainerStyle}>
       <h1 css={orderMainHeadingStyle}>Review Your Order</h1>
-      {totalPrice === '0.00' && <p>Your shopping cart is currently empty.</p>}
+      {order.length === 0 && <p>Your shopping cart is currently empty.</p>}
       {order.map((el) => {
         return (
           <div key={`product-${el.id}`} css={orderSingleProductContainerStyle}>

@@ -10,10 +10,10 @@ const mainContainerStyle = css`
   padding: 3% 0;
 `;
 
-function Layout({ children }) {
+function Layout({ children, ...props }) {
   return (
     <>
-      <Navbar />
+      <Navbar selectedProductNumber={props.selectedProductNumber} />
       <main css={mainContainerStyle}>{children}</main>
     </>
   );

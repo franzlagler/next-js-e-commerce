@@ -1,4 +1,6 @@
 import { css, Global } from '@emotion/react';
+import Cookies from 'js-cookie';
+import { useState } from 'react';
 import Layout from '../components/Layout';
 
 const globalStyle = css`
@@ -15,11 +17,21 @@ const globalStyle = css`
 `;
 
 function MyApp({ Component, pageProps }) {
+  const [selectedProductNumber, setSelectedProductNumber] = useState(() => {
+    return 0;
+  });
+
+  const handleSelectedProductNumberChange = (value) => {
+    setSelectedProductNumber(value);
+  };
   return (
     <>
       <Global styles={globalStyle} />
-      <Layout>
-        <Component {...pageProps} />
+      <Layout selectedProductNumber={selectedProductNumber}>
+        <Component
+          {...pageProps}
+          handleSelectedProductNumberChange={handleSelectedProductNumberChange}
+        />
       </Layout>
     </>
   );

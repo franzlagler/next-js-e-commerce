@@ -44,10 +44,10 @@ const productPriceStyle = css`
   font-size: 22px;
   font-weight: bolder;
 `;
-function Products({ productData }) {
+function Products(props) {
   const [amount, setAmount] = useState(() => {
     const valueArray = [];
-    for (let i = 0; i < productData.length; i++) {
+    for (let i = 0; i < props.productData.length; i++) {
       valueArray.push(1);
     }
     return valueArray;
@@ -117,19 +117,20 @@ function Products({ productData }) {
   const handleAddCartClick = (e, index) => {
     setOrder(() => {
       const addedProduct = {
-        id: productData[index].id,
+        id: props.productData[index].id,
         amount: amount[index],
       };
       const currentOrderArray = JSON.parse(Cookies.get('order'));
       currentOrderArray.push(addedProduct);
       console.log('hello');
+      props.handleSelectedProductNumberChange((prev) => prev + 1);
       return Cookies.set('order', JSON.stringify(currentOrderArray));
     });
   };
 
   return (
     <div css={productsContainerStyle}>
-      {productData.map((product, index) => {
+      {props.productData.map((product, index) => {
         return (
           <div key={`product-${product.id}`}>
             <a css={productHyperlinkStyle}>
