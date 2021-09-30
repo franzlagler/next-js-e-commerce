@@ -4,7 +4,7 @@ import Navbar from './Navbar';
 
 const mainContainerStyle = css`
   position: relative;
-  top: 50px;
+  top: 80px;
   max-width: 1000px;
   margin: 0 auto;
   padding: 3% 0;

@@ -1,5 +1,4 @@
 import { css } from '@emotion/react';
-import { useState } from 'react';
 
 const amountContainerStyle = css`
   display: flex;

@@ -32,7 +32,7 @@ const productData = [
   {
     id: '3',
     keyword: 'dark-chocolate-grapes',
-    name: 'Dark Chocolate with grape filling',
+    name: 'Dark Chocolate With Grape Filling',
     price: 5.2,
     image: product3,
   },
@@ -117,7 +117,7 @@ const productData = [
   {
     id: '15',
     keyword: 'ice-tea-peach',
-    name: 'Ice Teach Peach',
+    name: 'Ice Tea Peach',
     price: 5.2,
     image: product15,
   },

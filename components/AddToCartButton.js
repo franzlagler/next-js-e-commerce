@@ -10,8 +10,15 @@ const buttonStyle = css`
   cursor: pointer;
 `;
 
-function AddToCartButton() {
-  return <button css={buttonStyle}>Add To Cart</button>;
+function AddToCartButton(props) {
+  return (
+    <button
+      onClick={(e) => props.handleAddCartClick(e, props.index)}
+      css={buttonStyle}
+    >
+      Add To Cart
+    </button>
+  );
 }
 
 export default AddToCartButton;

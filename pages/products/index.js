@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
+import Cookies from 'js-cookie';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AddToCartButton from '../../components/AddToCartButton';
 import AmountInput from '../../components/AmountInput';
 
@@ -14,7 +15,7 @@ const productsContainerStyle = css`
 const singleProductContainerStyle = css`
   display: grid;
   align-items: center;
-  row-gap: 25px;
+  row-gap: 30px;
   width: 360px;
   height: 100%;
   padding: 20px 40px;
@@ -25,7 +26,7 @@ const singleProductContainerStyle = css`
   transform: scale(1);
   transition: transform 1s;
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.03);
     transition: transform 1s;
   }
 `;
@@ -35,8 +36,14 @@ const productHyperlinkStyle = css`
   cursor: pointer;
 `;
 
-const productImageStyle = css``;
+const productHeadingStyle = css`
+  min-height: 60px;
+`;
 
+const productPriceStyle = css`
+  font-size: 22px;
+  font-weight: bolder;
+`;
 function Products({ productData }) {
   const [amount, setAmount] = useState(() => {
     const valueArray = [];
@@ -46,8 +53,14 @@ function Products({ productData }) {
     return valueArray;
   });
 
-  const handleIncrementDecrementClick = (e) => {
-    const index = e.currentTarget.id - 1;
+  const [order, setOrder] = useState(() => {
+    if (Cookies.get('order') === undefined) {
+      Cookies.set('order', JSON.stringify([]));
+    }
+    return Cookies.get('order') || [];
+  });
+
+  const handleIncrementDecrementClick = (e, index) => {
     const buttonName = e.currentTarget.name;
     console.log(index, buttonName);
 
@@ -94,7 +107,7 @@ function Products({ productData }) {
       setAmount(
         amount.map((el, i) => {
           if (i === index) {
-            return el + 1;
+            return el - 1;
           }
           return el;
         }),
@@ -103,28 +116,47 @@ function Products({ productData }) {
     }
   };
 
+  const handleAddCartClick = (e, index) => {
+    console.log(e, index);
+    setOrder(() => {
+      const addedProduct = {
+        id: productData[index].id,
+        name: productData[index].name,
+        price: productData[index].price,
+        amount: amount[index],
+        totalPrice: (productData[index].price * amount[index]).toFixed(2),
+      };
+      const currentOrderArray = JSON.parse(Cookies.get('order'));
+      currentOrderArray.push(addedProduct);
+      Cookies.set('order', JSON.stringify(currentOrderArray));
+    });
+  };
+
   return (
     <div css={productsContainerStyle}>
-      {productData.map((product) => {
+      {productData.map((product, index) => {
         return (
           <div key={`product-${product.id}`}>
             <a css={productHyperlinkStyle}>
               <div css={singleProductContainerStyle}>
-                <h2>{product.name}</h2>
+                <h2 css={productHeadingStyle}>{product.name}</h2>
                 <Image
                   src={product.image}
                   alt="product"
                   width="80"
                   height="80"
-                  css={productImageStyle}
                 />
-                <p>{product.price.toFixed(2)}€</p>
+                <p css={productPriceStyle}>{product.price.toFixed(2)}€</p>
                 <AmountInput
-                  value={amount[product.id - 1]}
-                  id={product.id}
-                  handleIncrementDecrementClick={handleIncrementDecrementClick}
+                  value={amount[index]}
+                  handleIncrementDecrementClick={(e) =>
+                    handleIncrementDecrementClick(e, index)
+                  }
                 />
-                <AddToCartButton />
+                <AddToCartButton
+                  handleAddCartClick={handleAddCartClick}
+                  index={index}
+                />
               </div>
             </a>
           </div>
