@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import Cookies from 'js-cookie';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import AddToCartButton from '../../components/AddToCartButton';
 import AmountInput from '../../components/AmountInput';
 
@@ -54,15 +54,14 @@ function Products({ productData }) {
   });
 
   const [order, setOrder] = useState(() => {
-    if (Cookies.get('order') === undefined) {
+    if (JSON.parse(Cookies.get('order') === undefined)) {
       Cookies.set('order', JSON.stringify([]));
     }
-    return Cookies.get('order') || [];
+    return JSON.parse(Cookies.get('order'));
   });
 
   const handleIncrementDecrementClick = (e, index) => {
     const buttonName = e.currentTarget.name;
-    console.log(index, buttonName);
 
     if (amount[index] >= 2 && amount[index] <= 8) {
       if (buttonName === 'increment') {
@@ -95,7 +94,6 @@ function Products({ productData }) {
             return el;
           }),
         );
-        console.log('hello');
         return;
       }
 
@@ -117,18 +115,15 @@ function Products({ productData }) {
   };
 
   const handleAddCartClick = (e, index) => {
-    console.log(e, index);
     setOrder(() => {
       const addedProduct = {
         id: productData[index].id,
-        name: productData[index].name,
-        price: productData[index].price,
         amount: amount[index],
-        totalPrice: (productData[index].price * amount[index]).toFixed(2),
       };
       const currentOrderArray = JSON.parse(Cookies.get('order'));
       currentOrderArray.push(addedProduct);
-      Cookies.set('order', JSON.stringify(currentOrderArray));
+      console.log('hello');
+      return Cookies.set('order', JSON.stringify(currentOrderArray));
     });
   };
 

@@ -23,6 +23,7 @@ const navBarStyle = css`
 `;
 
 const navbarItemStyle = css`
+  font-weight: 500;
   list-style-type: none;
   &:last-of-type {
     margin-left: auto;
@@ -30,7 +31,6 @@ const navbarItemStyle = css`
 `;
 
 const navbarLinkStyle = css`
-  font-weight: 500;
   color: #212529;
   cursor: pointer;
   &:hover {
@@ -57,7 +57,7 @@ function Navbar() {
         <li css={navbarItemStyle}>
           <Link href="/cart">
             <a css={navbarLinkStyle}>
-              <Image src={cart} width="40" height="40px" />
+              <Image src={cart} width="40" height="40" />
             </a>
           </Link>
         </li>
