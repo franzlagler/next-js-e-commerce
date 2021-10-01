@@ -13,7 +13,7 @@ const mainContainerStyle = css`
 function Layout({ children, ...props }) {
   return (
     <>
-      <Navbar selectedProductNumber={props.selectedProductNumber} />
+      <Navbar cookies={props.cookies} />
       <main css={mainContainerStyle}>{children}</main>
     </>
   );

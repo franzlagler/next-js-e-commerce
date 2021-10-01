@@ -34,40 +34,22 @@ const totalPriceStyle = css`
 `;
 
 function Cart(props) {
-  const [cookies, setCookies] = useState([]);
   const [order, setOrder] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
 
-  const handleDeleteProductClick = (id) => {
-    props.handleSelectedProductNumberChange((prev) => prev - 1);
-    const currentCookies = cookies.filter((el) => el['id'] !== id);
-    console.log(currentCookies);
-    setCookies(() => {
-      Cookies.set('order', JSON.stringify(currentCookies));
-      return JSON.parse(Cookies.get('order'));
-    });
-  };
-
-  // Fetch Cookie at first run
-  useEffect(() => {
-    setCookies(() => {
-      return JSON.parse(Cookies.get('order'));
-    });
-  }, []);
-
   useEffect(() => {
     const chosenProducts = [];
-    for (let i = 0; i < cookies.length; i++) {
-      console.log(cookies);
+    for (let i = 0; i < props.cookies.length; i++) {
+      console.log(props.cookies);
       for (let j = 0; j < props.productData.length; j++) {
-        if (cookies[i].id === props.productData[j].id) {
+        if (props.cookies[i].id === props.productData[j].id) {
           chosenProducts.push(props.productData[j]);
-          chosenProducts[i].amount = cookies[i].amount;
+          chosenProducts[i].amount = props.cookies[i].amount;
         }
       }
     }
     setOrder(chosenProducts);
-  }, [cookies, props.productData]);
+  }, [props.cookies, props.productData]);
 
   useEffect(() => {
     setTotalPrice(() => {
@@ -89,7 +71,7 @@ function Cart(props) {
             <p>Amount: {el.amount}</p>
             <p>Product Price: {el.price.toFixed(2)}€</p>
             <DeleteButton
-              handleDeleteProductClick={() => handleDeleteProductClick(el.id)}
+              handleDeleteProduct={() => props.handleDeleteProduct(el.id)}
             />
           </div>
         );

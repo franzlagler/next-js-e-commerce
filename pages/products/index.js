@@ -53,79 +53,35 @@ function Products(props) {
     return valueArray;
   });
 
-  const [order, setOrder] = useState(() => {
-    if (JSON.parse(Cookies.get('order') === undefined)) {
-      Cookies.set('order', JSON.stringify([]));
+  const handleIncrementClick = (productIndex) => {
+    const currentAmount = amount[productIndex];
+    let updatedAmount = currentAmount;
+
+    if (currentAmount >= 2 && currentAmount <= 8) {
+      updatedAmount += 1;
+    } else if (currentAmount === 1) {
+      updatedAmount += 1;
     }
-    return JSON.parse(Cookies.get('order'));
-  });
 
-  const handleIncrementDecrementClick = (e, index) => {
-    const buttonName = e.currentTarget.name;
+    console.log(updatedAmount);
 
-    if (amount[index] >= 2 && amount[index] <= 8) {
-      if (buttonName === 'increment') {
-        setAmount(
-          amount.map((el, i) => {
-            if (i === index) {
-              return el + 1;
-            }
-            return el;
-          }),
-        );
-        return;
-      }
-      setAmount(
-        amount.map((el, i) => {
-          if (i === index) {
-            return el - 1;
-          }
-          return el;
-        }),
-      );
-      return;
-    } else if (amount[index] === 1) {
-      if (buttonName === 'increment') {
-        setAmount(
-          amount.map((el, i) => {
-            if (i === index) {
-              return el + 1;
-            }
-            return el;
-          }),
-        );
-        return;
-      }
-
-      return;
-    } else if (amount[index] === 9) {
-      if (buttonName === 'increment') {
-        return;
-      }
-      setAmount(
-        amount.map((el, i) => {
-          if (i === index) {
-            return el - 1;
-          }
-          return el;
-        }),
-      );
-      return;
-    }
+    setAmount(() => {
+      return [...amount, (amount[productIndex] = updatedAmount)];
+    });
   };
 
-  const handleAddCartClick = (e, index) => {
-    setOrder(() => {
-      const addedProduct = {
-        id: props.productData[index].id,
-        amount: amount[index],
-      };
-      const currentOrderArray = JSON.parse(Cookies.get('order'));
-      currentOrderArray.push(addedProduct);
-      console.log('hello');
-      props.handleSelectedProductNumberChange((prev) => prev + 1);
-      return Cookies.set('order', JSON.stringify(currentOrderArray));
-    });
+  const handleDecrementClick = (productIndex) => {
+    const currentAmount = amount[productIndex];
+    let updatedAmount = currentAmount;
+
+    if (currentAmount >= 2 && currentAmount <= 8) {
+      updatedAmount -= 1;
+    } else if (currentAmount === 9) {
+      updatedAmount -= 1;
+    }
+    console.log(updatedAmount);
+
+    setAmount((prev) => [...prev, (prev[productIndex] = updatedAmount)]);
   };
 
   return (
@@ -145,12 +101,13 @@ function Products(props) {
                 <p css={productPriceStyle}>{product.price.toFixed(2)}€</p>
                 <AmountInput
                   value={amount[index]}
-                  handleIncrementDecrementClick={(e) =>
-                    handleIncrementDecrementClick(e, index)
-                  }
+                  handleIncrementClick={() => handleIncrementClick(index)}
+                  handleDecrementClick={() => handleDecrementClick(index)}
                 />
                 <AddToCartButton
-                  handleAddCartClick={handleAddCartClick}
+                  handleAddClick={() =>
+                    props.handleAddClick(product.id, amount[index])
+                  }
                   index={index}
                 />
               </div>

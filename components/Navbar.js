@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import Cookies from 'js-cookie';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import cart from '../public/images/cart.svg';
 import logo from '../public/images/logo.svg';
 
@@ -68,7 +68,7 @@ function Navbar(props) {
           <Link href="/cart">
             <a css={navbarLinkStyle}>
               <Image src={cart} width="40" height="40" />
-              <p css={selectedProductStyle}>{props.selectedProductNumber}</p>
+              <p css={selectedProductStyle}>{props.cookies.length}</p>
             </a>
           </Link>
         </li>

@@ -56,7 +56,7 @@ function AmountInput(props) {
           id={props.id}
           name="decrement"
           css={incrementDecrementButton}
-          onClick={props.handleIncrementDecrementClick}
+          onClick={props.handleDecrementClick}
         >
           -
         </button>
@@ -73,7 +73,7 @@ function AmountInput(props) {
           id={props.id}
           name="increment"
           css={incrementDecrementButton}
-          onClick={props.handleIncrementDecrementClick}
+          onClick={props.handleIncrementClick}
         >
           +
         </button>

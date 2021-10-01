@@ -1,6 +1,6 @@
 import { css, Global } from '@emotion/react';
 import Cookies from 'js-cookie';
-import { useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 
 const globalStyle = css`
@@ -17,20 +17,52 @@ const globalStyle = css`
 `;
 
 function MyApp({ Component, pageProps }) {
-  const [selectedProductNumber, setSelectedProductNumber] = useState(() => {
-    return 0;
-  });
+  const [cookies, setCookies] = useState([]);
 
-  const handleSelectedProductNumberChange = (value) => {
-    setSelectedProductNumber(value);
+  const handleAddClick = (id, amount) => {
+    const addedProduct = {
+      id: id,
+      amount: amount,
+    };
+
+    const updatedArray = JSON.parse(Cookies.get('order'));
+    updatedArray.push(addedProduct);
+    Cookies.set('order', JSON.stringify(updatedArray));
+    setCookies(() => {
+      return JSON.parse(Cookies.get('order'));
+    });
   };
+
+  const handleDeleteProduct = (id) => {
+    console.log(id);
+
+    const filteredArray = cookies.filter((el) => el.id !== id);
+    Cookies.set('order', JSON.stringify(filteredArray));
+
+    setCookies(() => {
+      return JSON.parse(Cookies.get('order'));
+    });
+  };
+
+  useEffect(() => {
+    if (Cookies.get('order') === undefined) {
+      Cookies.set('order', JSON.stringify([]));
+    }
+
+    setCookies(() => {
+      return JSON.parse(Cookies.get('order'));
+    });
+  }, []);
+
   return (
     <>
       <Global styles={globalStyle} />
-      <Layout selectedProductNumber={selectedProductNumber}>
+      <Layout cookies={cookies}>
         <Component
           {...pageProps}
-          handleSelectedProductNumberChange={handleSelectedProductNumberChange}
+          cookies={cookies}
+          handleAddClick={handleAddClick}
+          handleDeleteProduct={handleDeleteProduct}
         />
       </Layout>
     </>

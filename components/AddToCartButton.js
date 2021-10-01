@@ -12,10 +12,7 @@ const buttonStyle = css`
 
 function AddToCartButton(props) {
   return (
-    <button
-      onClick={(e) => props.handleAddCartClick(e, props.index)}
-      css={buttonStyle}
-    >
+    <button onClick={props.handleAddClick} css={buttonStyle}>
       Add To Cart
     </button>
   );

@@ -12,7 +12,7 @@ const deleteButtonStyle = css`
 
 function DeleteButton(props) {
   return (
-    <button css={deleteButtonStyle} onClick={props.handleDeleteProductClick}>
+    <button css={deleteButtonStyle} onClick={props.handleDeleteProduct}>
       Delete
     </button>
   );
