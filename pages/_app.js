@@ -19,14 +19,39 @@ const globalStyle = css`
 function MyApp({ Component, pageProps }) {
   const [cookies, setCookies] = useState([]);
 
-  const handleAddClick = (id, amount) => {
-    const addedProduct = {
-      id: id,
-      amount: amount,
-    };
+  const checkIdExistence = (id) => {
+    for (let i = 0; i < cookies.length; i++) {
+      if (cookies[i].id === id) {
+        return true;
+      }
+    }
 
-    const updatedArray = JSON.parse(Cookies.get('order'));
-    updatedArray.push(addedProduct);
+    return false;
+  };
+
+  const handleAddClick = (id, amount) => {
+    const idExists = checkIdExistence(id);
+    let updatedArray = JSON.parse(Cookies.get('order'));
+
+    if (idExists) {
+      updatedArray = updatedArray.map((el) => {
+        if (el.id === id) {
+          return {
+            id: el.id,
+            amount: el.amount + amount,
+          };
+        }
+
+        return el;
+      });
+    } else {
+      const addedProduct = {
+        id: id,
+        amount: amount,
+      };
+      updatedArray.push(addedProduct);
+    }
+
     Cookies.set('order', JSON.stringify(updatedArray));
     setCookies(() => {
       return JSON.parse(Cookies.get('order'));

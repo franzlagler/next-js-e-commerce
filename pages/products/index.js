@@ -63,11 +63,17 @@ function Products(props) {
       updatedAmount += 1;
     }
 
-    console.log(updatedAmount);
+    console.log(productIndex);
 
-    setAmount(() => {
-      return [...amount, (amount[productIndex] = updatedAmount)];
-    });
+    setAmount(
+      amount.map((el, index) => {
+        if (index === productIndex) {
+          return updatedAmount;
+        }
+
+        return el;
+      }),
+    );
   };
 
   const handleDecrementClick = (productIndex) => {
@@ -79,9 +85,16 @@ function Products(props) {
     } else if (currentAmount === 9) {
       updatedAmount -= 1;
     }
-    console.log(updatedAmount);
 
-    setAmount((prev) => [...prev, (prev[productIndex] = updatedAmount)]);
+    setAmount(
+      amount.map((el, index) => {
+        if (index === productIndex) {
+          return updatedAmount;
+        }
+
+        return el;
+      }),
+    );
   };
 
   return (
