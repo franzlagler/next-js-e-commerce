@@ -1,6 +1,6 @@
 import { css, Global } from '@emotion/react';
 import Cookies from 'js-cookie';
-import { createContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 
 const globalStyle = css`
@@ -18,6 +18,13 @@ const globalStyle = css`
 
 function MyApp({ Component, pageProps }) {
   const [cookies, setCookies] = useState([]);
+  const [amount, setAmount] = useState(() => {
+    const valueArray = [];
+    for (let i = 0; i < 15; i++) {
+      valueArray.push(1);
+    }
+    return valueArray;
+  });
 
   const checkIdExistence = (id) => {
     for (let i = 0; i < cookies.length; i++) {
@@ -28,9 +35,11 @@ function MyApp({ Component, pageProps }) {
 
     return false;
   };
-
+  // Add item to cookie 'order'
   const handleAddClick = (id, amount) => {
+    // Check if item with that id already exists
     const idExists = checkIdExistence(id);
+
     let updatedArray = JSON.parse(Cookies.get('order'));
 
     if (idExists) {
@@ -57,7 +66,7 @@ function MyApp({ Component, pageProps }) {
       return JSON.parse(Cookies.get('order'));
     });
   };
-
+  // Delete item from cookie 'order'
   const handleDeleteProduct = (id) => {
     console.log(id);
 
@@ -69,6 +78,51 @@ function MyApp({ Component, pageProps }) {
     });
   };
 
+  const handleIncrementClick = (productIndex) => {
+    const currentAmount = amount[productIndex];
+    let updatedAmount = currentAmount;
+
+    if (currentAmount >= 2 && currentAmount <= 8) {
+      updatedAmount += 1;
+    } else if (currentAmount === 1) {
+      updatedAmount += 1;
+    }
+
+    console.log(productIndex);
+
+    setAmount(
+      amount.map((el, index) => {
+        if (index === productIndex) {
+          return updatedAmount;
+        }
+
+        return el;
+      }),
+    );
+  };
+
+  const handleDecrementClick = (productIndex) => {
+    const currentAmount = amount[productIndex];
+    let updatedAmount = currentAmount;
+
+    if (currentAmount >= 2 && currentAmount <= 8) {
+      updatedAmount -= 1;
+    } else if (currentAmount === 9) {
+      updatedAmount -= 1;
+    }
+
+    setAmount(
+      amount.map((el, index) => {
+        if (index === productIndex) {
+          return updatedAmount;
+        }
+
+        return el;
+      }),
+    );
+  };
+
+  // Fetch cookie when component did mount
   useEffect(() => {
     if (Cookies.get('order') === undefined) {
       Cookies.set('order', JSON.stringify([]));
@@ -86,8 +140,11 @@ function MyApp({ Component, pageProps }) {
         <Component
           {...pageProps}
           cookies={cookies}
+          amount={amount}
           handleAddClick={handleAddClick}
           handleDeleteProduct={handleDeleteProduct}
+          handleIncrementClick={handleIncrementClick}
+          handleDecrementClick={handleDecrementClick}
         />
       </Layout>
     </>

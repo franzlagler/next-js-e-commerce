@@ -46,6 +46,7 @@ const selectedProductStyle = css`
   top: 25px;
   right: 14px;
   font-size: 10px;
+  font-weight: bolder;
 `;
 
 function Navbar(props) {

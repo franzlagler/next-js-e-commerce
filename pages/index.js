@@ -7,8 +7,7 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>American Products</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>American Candy</title>
       </Head>
       <h1>American Products</h1>
       <Image src={uncleSam} alt="Uncle Sam" layout="fill" />

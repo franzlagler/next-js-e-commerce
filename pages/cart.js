@@ -1,7 +1,9 @@
 import { css } from '@emotion/react';
 import Cookies from 'js-cookie';
+import Head from 'next/head';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
+import CheckoutButton from '../components/CheckoutButton';
 import DeleteButton from '../components/DeleteButton';
 
 const orderContainerStyle = css`
@@ -33,6 +35,13 @@ const totalPriceStyle = css`
   font-weight: bolder;
 `;
 
+const horizontalRulerStyle = css`
+  width: 50%;
+  margin-top: 10px;
+  border: 1px solid #212529;
+  border-radius: 2px;
+`;
+
 function Cart(props) {
   const [order, setOrder] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -60,24 +69,34 @@ function Cart(props) {
   }, [order]);
 
   return (
-    <div css={orderContainerStyle}>
-      <h1 css={orderMainHeadingStyle}>Review Your Order</h1>
-      {order.length === 0 && <p>Your shopping cart is currently empty.</p>}
-      {order.map((el) => {
-        return (
-          <div key={`product-${el.id}`} css={orderSingleProductContainerStyle}>
-            <h2>{el.name}</h2>
-            <Image src={el.image} alt="product" width="80" height="80" />
-            <p>Amount: {el.amount}</p>
-            <p>Product Price: {el.price.toFixed(2)}€</p>
-            <DeleteButton
-              handleDeleteProduct={() => props.handleDeleteProduct(el.id)}
-            />
-          </div>
-        );
-      })}
-      <p css={totalPriceStyle}>Total: {totalPrice}€</p>
-    </div>
+    <>
+      <Head>
+        <title>Cart</title>
+      </Head>
+      <div css={orderContainerStyle}>
+        <h1 css={orderMainHeadingStyle}>Review Your Order</h1>
+        {order.length === 0 && <p>Your shopping cart is currently empty.</p>}
+        {order.map((el) => {
+          return (
+            <div
+              key={`product-${el.id}`}
+              css={orderSingleProductContainerStyle}
+            >
+              <h2>{el.name}</h2>
+              <Image src={el.image} alt="product" width="80" height="80" />
+              <p>Amount: {el.amount}</p>
+              <p>Product Price: {el.price.toFixed(2)}€</p>
+              <DeleteButton
+                handleDeleteProduct={() => props.handleDeleteProduct(el.id)}
+              />
+            </div>
+          );
+        })}
+        <hr css={horizontalRulerStyle} />
+        <p css={totalPriceStyle}>Total: {totalPrice}€</p>
+        <CheckoutButton />
+      </div>
+    </>
   );
 }
 

@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
-import Cookies from 'js-cookie';
+import Head from 'next/head';
 import Image from 'next/image';
-import { useState } from 'react';
+import Link from 'next/link';
 import AddToCartButton from '../../components/AddToCartButton';
 import AmountInput from '../../components/AmountInput';
 
@@ -45,90 +45,52 @@ const productPriceStyle = css`
   font-weight: bolder;
 `;
 function Products(props) {
-  const [amount, setAmount] = useState(() => {
-    const valueArray = [];
-    for (let i = 0; i < props.productData.length; i++) {
-      valueArray.push(1);
-    }
-    return valueArray;
-  });
-
-  const handleIncrementClick = (productIndex) => {
-    const currentAmount = amount[productIndex];
-    let updatedAmount = currentAmount;
-
-    if (currentAmount >= 2 && currentAmount <= 8) {
-      updatedAmount += 1;
-    } else if (currentAmount === 1) {
-      updatedAmount += 1;
-    }
-
-    console.log(productIndex);
-
-    setAmount(
-      amount.map((el, index) => {
-        if (index === productIndex) {
-          return updatedAmount;
-        }
-
-        return el;
-      }),
-    );
-  };
-
-  const handleDecrementClick = (productIndex) => {
-    const currentAmount = amount[productIndex];
-    let updatedAmount = currentAmount;
-
-    if (currentAmount >= 2 && currentAmount <= 8) {
-      updatedAmount -= 1;
-    } else if (currentAmount === 9) {
-      updatedAmount -= 1;
-    }
-
-    setAmount(
-      amount.map((el, index) => {
-        if (index === productIndex) {
-          return updatedAmount;
-        }
-
-        return el;
-      }),
-    );
-  };
-
   return (
-    <div css={productsContainerStyle}>
-      {props.productData.map((product, index) => {
-        return (
-          <div key={`product-${product.id}`}>
-            <a css={productHyperlinkStyle}>
-              <div css={singleProductContainerStyle}>
-                <h2 css={productHeadingStyle}>{product.name}</h2>
-                <Image
-                  src={product.image}
-                  alt="product"
-                  width="80"
-                  height="80"
-                />
-                <p css={productPriceStyle}>{product.price.toFixed(2)}€</p>
-                <AmountInput
-                  value={amount[index]}
-                  handleIncrementClick={() => handleIncrementClick(index)}
-                  handleDecrementClick={() => handleDecrementClick(index)}
-                />
-                <AddToCartButton
-                  handleAddClick={() =>
-                    props.handleAddClick(product.id, amount[index])
-                  }
-                  index={index}
-                />
-              </div>
-            </a>
-          </div>
-        );
-      })}
-    </div>
+    <>
+      <Head>
+        <title>Products</title>
+      </Head>
+      <div css={productsContainerStyle}>
+        {props.productData.map((product, index) => {
+          return (
+            <div key={`product-${product.id}`}>
+              <a>
+                <div css={singleProductContainerStyle}>
+                  <Link href={`products/${product.keyword}`}>
+                    <a css={productHyperlinkStyle}>
+                      <h2 css={productHeadingStyle}>{product.name}</h2>
+                    </a>
+                  </Link>
+                  <Image
+                    src={product.image}
+                    alt="product"
+                    width="80"
+                    height="80"
+                  />
+
+                  <p css={productPriceStyle}>{product.price.toFixed(2)}€</p>
+                  <AmountInput
+                    value={props.amount[index]}
+                    handleIncrementClick={() =>
+                      props.handleIncrementClick(index)
+                    }
+                    handleDecrementClick={() =>
+                      props.handleDecrementClick(index)
+                    }
+                  />
+                  <AddToCartButton
+                    handleAddClick={() =>
+                      props.handleAddClick(product.id, props.amount[index])
+                    }
+                    index={index}
+                  />
+                </div>
+              </a>
+            </div>
+          );
+        })}
+      </div>
+    </>
   );
 }
 
@@ -137,6 +99,6 @@ export default Products;
 export async function getServerSideProps() {
   const { productData } = await import('../../util/productData');
   return {
-    props: { productData: productData }, // will be passed to the page component as props
+    props: { productData: productData },
   };
 }
