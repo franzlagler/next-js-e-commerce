@@ -1,35 +1,30 @@
-import dotenvSafe from 'dotenv-safe';
-import postgres from 'postgres';
+/* CREATE TABLE products (
+  id SERIAL,
+  keyword VARCHAR(60),
+  name VARCHAR(60),
+  price FLOAT,
+  image VARCHAR(10)
+);
 
-/* import product1 from '../public/images/product1.svg';
-import product10 from '../public/images/product10.svg';
-import product11 from '../public/images/product11.svg';
-import product12 from '../public/images/product12.svg';
-import product13 from '../public/images/product13.svg';
-import product14 from '../public/images/product14.svg';
-import product15 from '../public/images/product15.svg';
-import product2 from '../public/images/product2.svg';
-import product3 from '../public/images/product3.svg';
-import product4 from '../public/images/product4.svg';
-import product5 from '../public/images/product5.svg';
-import product6 from '../public/images/product6.svg';
-import product7 from '../public/images/product7.svg';
-import product8 from '../public/images/product8.svg';
-import product9 from '../public/images/product9.svg'; */
+INSERT INTO products (keyword, name, price, image) VALUES
+  ('butter-popcorn','Movie Theater Butter Popcorn',3.5,'img1'),
+  ('original-coke','Original Coke',2.1,'img2'),
+  ('dark-chocolate-grapes','Dark Chocolate With Grape Filling',4.1,'img3'),
+  ('extra-salty-chips','Extra Salty Chips',3.9,'img4'),
+  ('nut-chocolate','Extra Nut Chocolate',3.8,'img5'),
+  ('caramel-popcorn','Super Caramel Popcorn',3.6,'img6'),
+  ('fanta-papaya','Fanta Papaya (Limited Edition),',2.4,'img7'),
+  ('sneaky-bar','Sneaky Bar',2.6,'img8'),
+  ('caffeine-bar','Crazy Caffeine Bar',2.8,'img9'),
+  ('hot-pepper-chips','Too Hot To Handle Pepper Chips',3.8,'img10'),
+  ('strawberry-donuts','Strawberry Donuts (Five Pack),',5.5,'img11'),
+  ('chocolate-donuts','Chocolate Donuts (Five Pack),',5.5,'img12'),
+  ('cinnamon-donuts','Cinnamon Donuts (Five Pack),',5.5,'img13'),
+  ('monstrous-caffeine-booster','Monstrous Caffeine Booster',2.7,'img14'),
+  ('ice-tea-peach','Ice Tea Peach',2.4,'img15'); */
 
-dotenvSafe.config();
 
-const sql = postgres();
-
-export async function getProducts() {
-  const products = await sql`
-  SELECT * FROM products;
-  `;
-
-  return products;
-}
-
-/* const productData = [
+const productData = [
   {
     id: '1',
     keyword: 'butter-popcorn',
@@ -82,7 +77,7 @@ export async function getProducts() {
   {
     id: '7',
     keyword: 'fanta-papaya',
-    name: 'Fanta Papaya (Limited Edition)',
+    name: 'Fanta Papaya (Limited Edition),',
     price: 5.2,
     label: ['drink', 'sweet'],
     image: product7,
@@ -115,7 +110,7 @@ export async function getProducts() {
   {
     id: '11',
     keyword: 'strawberry-donuts',
-    name: 'Strawberry Donuts (Five Pack)',
+    name: 'Strawberry Donuts (Five Pack),',
     price: 5.2,
     label: ['food', 'sweet'],
     image: product11,
@@ -123,7 +118,7 @@ export async function getProducts() {
   {
     id: '12',
     keyword: 'chcolocate-donuts',
-    name: 'Chocolate Donuts (Five Pack)',
+    name: 'Chocolate Donuts (Five Pack),',
     price: 5.2,
     label: ['food', 'sweet'],
     image: product12,
@@ -131,7 +126,7 @@ export async function getProducts() {
   {
     id: '13',
     keyword: 'cinnamon-donuts',
-    name: 'Cinnamon Donuts (Five Pack)',
+    name: 'Cinnamon Donuts (Five Pack),',
     price: 5.2,
     label: ['food', 'sweet'],
     image: product13,
@@ -153,6 +148,3 @@ export async function getProducts() {
     image: product15,
   },
 ];
-
-export { productData };
- */

@@ -4,10 +4,10 @@ import Navbar from './Navbar';
 
 const mainContainerStyle = css`
   position: relative;
-  top: 50px;
+  top: 100px;
   max-width: 1000px;
   margin: 0 auto;
-  padding: 3% 0;
+  padding: 0;
 `;
 
 function Layout({ children, ...props }) {
@@ -15,7 +15,6 @@ function Layout({ children, ...props }) {
     <>
       <Navbar cookies={props.cookies} />
       <main css={mainContainerStyle}>{children}</main>
-      <Footer />
     </>
   );
 }

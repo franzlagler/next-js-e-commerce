@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import AmountInput from '../../components/AmountInput';
 import AddToCartButton from '../../components/BigButton';
+import { getProducts } from '../../util/productData';
 
 const singleProductContainerStyle = css`
   display: grid;
@@ -42,7 +43,7 @@ export default function product(props) {
       <div css={singleProductContainerStyle}>
         <h2 css={singleProductHeading}>{props.singleProduct.name}</h2>
         <Image
-          src={props.singleProduct.image}
+          src={`/images/${props.singleProduct.image}.svg`}
           alt="product"
           width="150"
           height="150"
@@ -75,6 +76,7 @@ export default function product(props) {
             )
           }
           index={props.index}
+          name="Add to Cart"
         />
       </div>
     </>
@@ -82,11 +84,11 @@ export default function product(props) {
 }
 
 export async function getServerSideProps(context) {
-  const { productData } = await import('../../util/productData');
+  const products = await getProducts();
   const input = context.query.product;
 
-  const singleProduct = productData.find((el) => el.keyword === input);
-  const index = productData.findIndex((el) => el.keyword === input);
+  const singleProduct = products.find((el) => el.keyword === input);
+  const index = products.findIndex((el) => el.keyword === input);
   console.log(index);
 
   return {

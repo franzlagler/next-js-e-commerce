@@ -5,12 +5,13 @@ import { useEffect, useState } from 'react';
 import AmountInput from '../components/AmountInput';
 import BigButton from '../components/BigButton';
 import DeleteButton from '../components/DeleteButton';
+import { getProducts } from '../util/productData';
 
 const orderContainerStyle = css`
   display: grid;
   row-gap: 20px;
   justify-content: center;
-  padding: 40px 0;
+  padding: 40px 80px;
   background-color: #fff;
   border: 3px solid #212529;
   border-radius: 15px;
@@ -115,7 +116,12 @@ function Cart(props) {
               css={orderSingleProductContainerStyle}
             >
               <h2>{el.name}</h2>
-              <Image src={el.image} alt="product" width="70" height="70" />
+              <Image
+                src={`/images/${el.image}.svg`}
+                alt="product"
+                width="70"
+                height="70"
+              />
               <AmountInput
                 value={el.amount}
                 handleIncrementClick={() => handleIncrementClick(el.id)}
@@ -141,8 +147,8 @@ function Cart(props) {
 export default Cart;
 
 export async function getServerSideProps() {
-  const { productData } = await import('../util/productData');
+  const products = await getProducts();
   return {
-    props: { productData: productData }, // will be passed to the page component as props
+    props: { productData: products }, // will be passed to the page component as props
   };
 }

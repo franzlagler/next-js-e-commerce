@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import AmountInput from '../../components/AmountInput';
 import BigButton from '../../components/BigButton';
+import { getProducts } from '../../util/productData';
 
 const productsContainerStyle = css`
   display: flex;
@@ -61,7 +62,7 @@ function Products(props) {
                   </a>
                 </Link>
                 <Image
-                  src={product.image}
+                  src={`/images/${product.image}.svg`}
                   alt="product"
                   width="80"
                   height="80"
@@ -92,8 +93,8 @@ function Products(props) {
 export default Products;
 
 export async function getServerSideProps() {
-  const { productData } = await import('../../util/productData');
+  const products = await getProducts();
   return {
-    props: { productData: productData },
+    props: { productData: products }, // will be passed to the page component as props
   };
 }

@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
 const footerContainerStyle = css`
-  position: fixed;
+  position: sticky;
   bottom: 0;
   width: 100%;
   height: 200px;

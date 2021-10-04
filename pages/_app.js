@@ -13,6 +13,7 @@ const globalStyle = css`
 
   body {
     background-color: #f8f9fa;
+    height: 100vh;
   }
 `;
 
