@@ -17,7 +17,7 @@ const globalStyle = css`
 `;
 
 function MyApp({ Component, pageProps }) {
-  const [cookies, setCookies] = useState([]);
+  const [cookies, setCookies] = useState([1]);
   const [amount, setAmount] = useState(() => {
     const valueArray = [];
     for (let i = 0; i < 15; i++) {
@@ -25,58 +25,6 @@ function MyApp({ Component, pageProps }) {
     }
     return valueArray;
   });
-
-  const checkIdExistence = (id) => {
-    for (let i = 0; i < cookies.length; i++) {
-      if (cookies[i].id === id) {
-        return true;
-      }
-    }
-
-    return false;
-  };
-  // Add item to cookie 'order'
-  const handleAddClick = (id, amount) => {
-    // Check if item with that id already exists
-    const idExists = checkIdExistence(id);
-
-    let updatedArray = JSON.parse(Cookies.get('order'));
-
-    if (idExists) {
-      updatedArray = updatedArray.map((el) => {
-        if (el.id === id) {
-          return {
-            id: el.id,
-            amount: el.amount + amount,
-          };
-        }
-
-        return el;
-      });
-    } else {
-      const addedProduct = {
-        id: id,
-        amount: amount,
-      };
-      updatedArray.push(addedProduct);
-    }
-
-    Cookies.set('order', JSON.stringify(updatedArray));
-    setCookies(() => {
-      return JSON.parse(Cookies.get('order'));
-    });
-  };
-  // Delete item from cookie 'order'
-  const handleDeleteProduct = (id) => {
-    console.log(id);
-
-    const filteredArray = cookies.filter((el) => el.id !== id);
-    Cookies.set('order', JSON.stringify(filteredArray));
-
-    setCookies(() => {
-      return JSON.parse(Cookies.get('order'));
-    });
-  };
 
   const handleIncrementClick = (productIndex) => {
     const currentAmount = amount[productIndex];
@@ -122,6 +70,56 @@ function MyApp({ Component, pageProps }) {
     );
   };
 
+  const checkIdExistence = (id) => {
+    if (cookies.find((el) => el.id === id)) return true;
+
+    return false;
+  };
+  // Add item to cookie 'order'
+  const handleAddClick = (id, productAmount) => {
+    // Check if item with that id already exists
+    const idExists = checkIdExistence(id);
+
+    let updatedArray = JSON.parse(Cookies.get('order'));
+
+    if (idExists) {
+      updatedArray = updatedArray.map((el) => {
+        if (el.id === id) {
+          return {
+            id: el.id,
+            amount: el.amount + productAmount,
+          };
+        }
+
+        return el;
+      });
+    } else {
+      const addedProduct = {
+        id: id,
+        amount: productAmount,
+      };
+      updatedArray.push(addedProduct);
+    }
+
+    Cookies.set('order', JSON.stringify(updatedArray));
+    setCookies(() => {
+      return JSON.parse(Cookies.get('order'));
+    });
+
+    setAmount(amount.map(() => 1));
+  };
+  // Delete item from cookie 'order'
+  const handleDeleteProduct = (id) => {
+    console.log(id);
+
+    const filteredArray = cookies.filter((el) => el.id !== id);
+    Cookies.set('order', JSON.stringify(filteredArray));
+
+    setCookies(() => {
+      return JSON.parse(Cookies.get('order'));
+    });
+  };
+
   // Fetch cookie when component did mount
   useEffect(() => {
     if (Cookies.get('order') === undefined) {
@@ -145,6 +143,7 @@ function MyApp({ Component, pageProps }) {
           handleDeleteProduct={handleDeleteProduct}
           handleIncrementClick={handleIncrementClick}
           handleDecrementClick={handleDecrementClick}
+          setAmount={setAmount}
         />
       </Layout>
     </>

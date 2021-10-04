@@ -1,8 +1,8 @@
 import { css } from '@emotion/react';
 import Head from 'next/head';
 import Image from 'next/image';
-import AddToCartButton from '../../components/AddToCartButton';
 import AmountInput from '../../components/AmountInput';
+import AddToCartButton from '../../components/BigButton';
 
 const singleProductContainerStyle = css`
   display: grid;

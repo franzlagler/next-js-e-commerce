@@ -1,5 +1,4 @@
 import { css } from '@emotion/react';
-import { prependOnceListener } from 'process';
 
 const deleteButtonStyle = css`
   width: 20px;

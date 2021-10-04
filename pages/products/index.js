@@ -2,8 +2,8 @@ import { css } from '@emotion/react';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import AddToCartButton from '../../components/AddToCartButton';
 import AmountInput from '../../components/AmountInput';
+import BigButton from '../../components/BigButton';
 
 const productsContainerStyle = css`
   display: flex;
@@ -54,38 +54,33 @@ function Products(props) {
         {props.productData.map((product, index) => {
           return (
             <div key={`product-${product.id}`}>
-              <a>
-                <div css={singleProductContainerStyle}>
-                  <Link href={`products/${product.keyword}`}>
-                    <a css={productHyperlinkStyle}>
-                      <h2 css={productHeadingStyle}>{product.name}</h2>
-                    </a>
-                  </Link>
-                  <Image
-                    src={product.image}
-                    alt="product"
-                    width="80"
-                    height="80"
-                  />
+              <div css={singleProductContainerStyle}>
+                <Link href={`products/${product.keyword}`}>
+                  <a css={productHyperlinkStyle}>
+                    <h2 css={productHeadingStyle}>{product.name}</h2>
+                  </a>
+                </Link>
+                <Image
+                  src={product.image}
+                  alt="product"
+                  width="80"
+                  height="80"
+                />
 
-                  <p css={productPriceStyle}>{product.price.toFixed(2)}€</p>
-                  <AmountInput
-                    value={props.amount[index]}
-                    handleIncrementClick={() =>
-                      props.handleIncrementClick(index)
-                    }
-                    handleDecrementClick={() =>
-                      props.handleDecrementClick(index)
-                    }
-                  />
-                  <AddToCartButton
-                    handleAddClick={() =>
-                      props.handleAddClick(product.id, props.amount[index])
-                    }
-                    index={index}
-                  />
-                </div>
-              </a>
+                <p css={productPriceStyle}>{product.price.toFixed(2)}€</p>
+                <AmountInput
+                  value={props.amount[index]}
+                  handleIncrementClick={() => props.handleIncrementClick(index)}
+                  handleDecrementClick={() => props.handleDecrementClick(index)}
+                />
+                <BigButton
+                  name="Add to Cart"
+                  handleAddClick={() =>
+                    props.handleAddClick(product.id, props.amount[index])
+                  }
+                  index={index}
+                />
+              </div>
             </div>
           );
         })}

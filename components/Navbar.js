@@ -1,8 +1,6 @@
 import { css } from '@emotion/react';
-import Cookies from 'js-cookie';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useContext } from 'react';
 import cart from '../public/images/cart.svg';
 import logo from '../public/images/logo.svg';
 
@@ -41,11 +39,26 @@ const navbarLinkStyle = css`
   }
 `;
 
+const cartContainerStyle = css`
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const cartImageStyle = css`
+  width: 100%;
+`;
+
 const selectedProductStyle = css`
   position: absolute;
-  top: 25px;
-  right: 14px;
-  font-size: 10px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-35%, -40%);
+  width: 20px;
+  text-align: center;
+  font-size: 8px;
   font-weight: bolder;
 `;
 
@@ -68,8 +81,10 @@ function Navbar(props) {
         <li css={navbarItemStyle}>
           <Link href="/cart">
             <a css={navbarLinkStyle}>
-              <Image src={cart} width="40" height="40" />
-              <p css={selectedProductStyle}>{props.cookies.length}</p>
+              <div css={cartContainerStyle}>
+                <Image css={cartImageStyle} src={cart} width="40" height="40" />
+                <p css={selectedProductStyle}>{props.cookies.length}</p>
+              </div>
             </a>
           </Link>
         </li>

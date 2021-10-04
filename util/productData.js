@@ -20,6 +20,7 @@ const productData = [
     keyword: 'butter-popcorn',
     name: 'Movie Theater Butter Popcorn',
     price: 5.2,
+    label: ['food', 'salty'],
     image: product1,
   },
   {
@@ -27,6 +28,8 @@ const productData = [
     keyword: 'original-coke',
     name: 'Original Coke',
     price: 2.4,
+    label: ['drink', 'sweet'],
+
     image: product2,
   },
   {
@@ -34,6 +37,7 @@ const productData = [
     keyword: 'dark-chocolate-grapes',
     name: 'Dark Chocolate With Grape Filling',
     price: 5.2,
+    label: ['food', 'sweet'],
     image: product3,
   },
   {
@@ -41,6 +45,7 @@ const productData = [
     keyword: 'extra-salty-chips',
     name: 'Extra Salty Chips',
     price: 5.2,
+    label: ['food', 'salty'],
     image: product4,
   },
   {
@@ -48,6 +53,7 @@ const productData = [
     keyword: 'nut-chocolate',
     name: 'Extra Nut Chocolate',
     price: 5.2,
+    label: ['food', 'sweet'],
     image: product5,
   },
   {
@@ -55,6 +61,7 @@ const productData = [
     keyword: 'caramel-popcorn',
     name: 'Super Caramel Popcorn',
     price: 5.2,
+    label: ['food', 'sweet'],
     image: product6,
   },
   {
@@ -62,6 +69,7 @@ const productData = [
     keyword: 'fanta-papaya',
     name: 'Fanta Papaya (Limited Edition)',
     price: 5.2,
+    label: ['drink', 'sweet'],
     image: product7,
   },
   {
@@ -69,6 +77,7 @@ const productData = [
     keyword: 'sneaky-bar',
     name: 'Sneaky Bar',
     price: 5.2,
+    label: ['food', 'sweet'],
     image: product8,
   },
   {
@@ -76,6 +85,7 @@ const productData = [
     keyword: 'caffeine-bar',
     name: 'Crazy Caffeine Bar',
     price: 5.2,
+    label: ['food', 'sweet'],
     image: product9,
   },
 
@@ -84,6 +94,7 @@ const productData = [
     keyword: 'hot-pepper-chips',
     name: 'Too Hot To Handle Pepper Chips',
     price: 5.2,
+    label: ['food', 'salty'],
     image: product10,
   },
   {
@@ -91,6 +102,7 @@ const productData = [
     keyword: 'strawberry-donuts',
     name: 'Strawberry Donuts (Five Pack)',
     price: 5.2,
+    label: ['food', 'sweet'],
     image: product11,
   },
   {
@@ -98,6 +110,7 @@ const productData = [
     keyword: 'chcolocate-donuts',
     name: 'Chocolate Donuts (Five Pack)',
     price: 5.2,
+    label: ['food', 'sweet'],
     image: product12,
   },
   {
@@ -105,6 +118,7 @@ const productData = [
     keyword: 'cinnamon-donuts',
     name: 'Cinnamon Donuts (Five Pack)',
     price: 5.2,
+    label: ['food', 'sweet'],
     image: product13,
   },
   {
@@ -112,6 +126,7 @@ const productData = [
     keyword: 'monstrous-caffeine-booster',
     name: 'Monstrous Caffeine Booster',
     price: 5.2,
+    food: ['drink', 'sweet'],
     image: product14,
   },
   {
@@ -119,6 +134,7 @@ const productData = [
     keyword: 'ice-tea-peach',
     name: 'Ice Tea Peach',
     price: 5.2,
+    food: ['drink', 'sweet'],
     image: product15,
   },
 ];
