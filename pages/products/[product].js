@@ -8,7 +8,7 @@ import { getProducts } from '../../util/productData';
 const singleProductContainerStyle = css`
   display: grid;
   justify-content: center;
-  grid-gap: 40px;
+  grid-gap: 44px;
   padding: 40px 200px;
   border: 3px solid #212529;
   border-radius: 15px;

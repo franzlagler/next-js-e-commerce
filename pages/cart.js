@@ -26,7 +26,7 @@ const orderSingleProductContainerStyle = css`
   row-gap: 25px;
   margin: 10px 0;
   padding: 20px 15px;
-  border: 2px solid #212529;
+  border: 3px solid #212529;
   border-radius: 10px;
 `;
 
@@ -45,40 +45,6 @@ const horizontalRulerStyle = css`
 function Cart(props) {
   const [order, setOrder] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
-
-  const handleIncrementClick = (id) => {
-    setOrder(
-      order.map((el) => {
-        if (el.id === id) {
-          return {
-            ...el,
-            amount: el.amount + 1,
-          };
-        }
-
-        return el;
-      }),
-    );
-  };
-
-  const handleDecrementClick = (id, amount) => {
-    if (amount === 1) {
-      return;
-    }
-
-    setOrder(
-      order.map((el) => {
-        if (el.id === id) {
-          return {
-            ...el,
-            amount: el.amount - 1,
-          };
-        }
-
-        return el;
-      }),
-    );
-  };
 
   useEffect(() => {
     const chosenProducts = [];
@@ -122,14 +88,17 @@ function Cart(props) {
                 width="70"
                 height="70"
               />
+              <p>Product Price: {el.price.toFixed(2)}€</p>
+
               <AmountInput
                 value={el.amount}
-                handleIncrementClick={() => handleIncrementClick(el.id)}
-                handleDecrementClick={() =>
-                  handleDecrementClick(el.id, el.amount)
+                handleIncrementClick={(e) =>
+                  props.handleUpdateAmountCartClick(e, el.id)
+                }
+                handleDecrementClick={(e) =>
+                  props.handleUpdateAmountCartClick(e, el.id)
                 }
               />
-              <p>Product Price: {el.price.toFixed(2)}€</p>
               <DeleteButton
                 handleDeleteProduct={() => props.handleDeleteProduct(el.id)}
               />

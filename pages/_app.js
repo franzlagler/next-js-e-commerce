@@ -27,6 +27,13 @@ function MyApp({ Component, pageProps }) {
     return valueArray;
   });
 
+  const updateCookies = (newInput) => {
+    Cookies.set('order', JSON.stringify(newInput));
+    setCookies(() => {
+      return JSON.parse(Cookies.get('order'));
+    });
+  };
+
   const handleIncrementClick = (productIndex) => {
     const currentAmount = amount[productIndex];
     let updatedAmount = currentAmount;
@@ -36,8 +43,6 @@ function MyApp({ Component, pageProps }) {
     } else if (currentAmount === 1) {
       updatedAmount += 1;
     }
-
-    console.log(productIndex);
 
     setAmount(
       amount.map((el, index) => {
@@ -102,10 +107,7 @@ function MyApp({ Component, pageProps }) {
       updatedArray.push(addedProduct);
     }
 
-    Cookies.set('order', JSON.stringify(updatedArray));
-    setCookies(() => {
-      return JSON.parse(Cookies.get('order'));
-    });
+    updateCookies(updatedArray);
 
     setAmount(amount.map(() => 1));
   };
@@ -114,14 +116,42 @@ function MyApp({ Component, pageProps }) {
     console.log(id);
 
     const filteredArray = cookies.filter((el) => el.id !== id);
-    Cookies.set('order', JSON.stringify(filteredArray));
-
-    setCookies(() => {
-      return JSON.parse(Cookies.get('order'));
-    });
+    updateCookies(filteredArray);
   };
 
-  // Fetch cookie when component did mount
+  // Update Product Amount in Cart
+  const handleUpdateAmountCartClick = (e, id) => {
+    const buttonName = e.currentTarget.name;
+    let updatedArray;
+
+    if (buttonName === 'decrement') {
+      updatedArray = cookies.map((el) => {
+        if (el.id === id && el.amount !== 1) {
+          return {
+            ...el,
+            amount: el.amount - 1,
+          };
+        }
+
+        return el;
+      });
+    } else {
+      updatedArray = cookies.map((el) => {
+        if (el.id === id) {
+          return {
+            ...el,
+            amount: el.amount + 1,
+          };
+        }
+
+        return el;
+      });
+    }
+
+    updateCookies(updatedArray);
+  };
+
+  // Fetch cookie on start
   useEffect(() => {
     if (Cookies.get('order') === undefined) {
       Cookies.set('order', JSON.stringify([]));
@@ -144,6 +174,7 @@ function MyApp({ Component, pageProps }) {
           handleDeleteProduct={handleDeleteProduct}
           handleIncrementClick={handleIncrementClick}
           handleDecrementClick={handleDecrementClick}
+          handleUpdateAmountCartClick={handleUpdateAmountCartClick}
           setAmount={setAmount}
         />
       </Layout>

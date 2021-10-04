@@ -7,13 +7,15 @@ const heroContainerStyle = css`
   display: flex;
   align-items: center;
   padding: 25px;
-  background-color: #fff;
+  background-color: #fc5d3d;
   border: 4px solid #212529;
   border-radius: 15px;
+  color: #f8f9fa;
 `;
 
 const heroHeadingStyle = css`
   font-size: 50px;
+  font-weight: 500;
   line-height: 1.5;
 `;
 
@@ -23,7 +25,7 @@ const heroHeadingEmphasisStyle = css`
 
 const introductoryTextStyle = css`
   margin-top: 40px;
-  font-size: 24px;
+  font-size: 20px;
   line-height: 1.5;
 `;
 
@@ -41,10 +43,10 @@ export default function Home() {
         </h1>
       </div>
       <p css={introductoryTextStyle}>
-        Listen to good ol' Uncle Sam and order some of America's best candy and
-        snacks! We offer a great variety of products from energy drinks with
-        life-threatening amounts of caffeine to pepper chips that will bring
-        even the toughest person to their knees.
+        Listen to good ol' Uncle Sam and order some of America's most delicious
+        candy and snacks! We offer a great variety of products from energy
+        drinks with life-threatening amounts of caffeine to pepper chips that
+        will bring even the toughest person to their knees.
       </p>
     </>
   );
