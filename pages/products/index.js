@@ -62,7 +62,7 @@ function Products(props) {
                   </a>
                 </Link>
                 <Image
-                  src={`/images/${product.image}.svg`}
+                  src={`/images/img${product.id}.svg`}
                   alt="product"
                   width="80"
                   height="80"

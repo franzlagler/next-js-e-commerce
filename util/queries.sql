@@ -24,6 +24,9 @@ INSERT INTO products (keyword, name, price, image) VALUES
   ('ice-tea-peach','Ice Tea Peach',2.4,'img15'); */
 
 
+UPDATE products
+SET name="Original Simpsons Strawberry Donuts (Five Pack)"
+WHERE id=11;
 const productData = [
   {
     id: '1',

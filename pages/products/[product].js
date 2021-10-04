@@ -43,7 +43,7 @@ export default function product(props) {
       <div css={singleProductContainerStyle}>
         <h2 css={singleProductHeading}>{props.singleProduct.name}</h2>
         <Image
-          src={`/images/${props.singleProduct.image}.svg`}
+          src={`/images/img${props.singleProduct.id}.svg`}
           alt="product"
           width="150"
           height="150"

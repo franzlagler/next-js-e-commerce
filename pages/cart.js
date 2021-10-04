@@ -83,7 +83,7 @@ function Cart(props) {
             >
               <h2>{el.name}</h2>
               <Image
-                src={`/images/${el.image}.svg`}
+                src={`/images/img${el.id}.svg`}
                 alt="product"
                 width="70"
                 height="70"
