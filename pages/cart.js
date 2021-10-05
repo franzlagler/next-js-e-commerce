@@ -58,6 +58,7 @@ const horizontalRulerStyle = css`
 
 function Cart(props) {
   const [order, setOrder] = useState([]);
+  const [subTotal, setSubTotal] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
 
   const shippingCosts = 4.95;
@@ -78,12 +79,14 @@ function Cart(props) {
   useEffect(() => {
     setTotalPrice(() => {
       const allPrices = order.map((el) => el.price * el.amount);
-      let total = allPrices.reduce((acc, nextVal) => (acc += nextVal), 0);
-      if (total < 30 && total !== 0) {
-        total += shippingCosts;
+      const provTotal = allPrices.reduce((acc, nextVal) => (acc += nextVal), 0);
+      setSubTotal(provTotal);
+      if (provTotal < 30 && provTotal !== 0) {
+        setTotalPrice(provTotal + shippingCosts);
+        return;
       }
 
-      setTotalPrice(total);
+      setTotalPrice(provTotal);
     });
   }, [order]);
 
@@ -129,15 +132,9 @@ function Cart(props) {
           );
         })}
 
-        <p>
-          Subtotal:{' '}
-          {totalPrice - shippingCosts > 0
-            ? (totalPrice - shippingCosts).toFixed(2)
-            : '0.00'}
-          €
-        </p>
+        <p>Subtotal: {subTotal.toFixed(2)}€</p>
 
-        {totalPrice < 30 && totalPrice !== 0
+        {subTotal < 30 && subTotal !== 0
           ? `Shipping Costs: ${shippingCosts}€`
           : 'Shipping Costs: 0.00€'}
         <hr css={horizontalRulerStyle} />
