@@ -16,14 +16,15 @@ const navBarStyle = css`
   position: relative;
   display: flex;
   align-items: center;
-  max-width: 1000px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 0;
   display: flex;
-  grid-gap: 30px;
+  grid-gap: 40px;
 `;
 
 const navbarItemStyle = css`
+  font-size: 20px;
   font-weight: 500;
   list-style-type: none;
   &:last-of-type {
@@ -69,7 +70,7 @@ function Navbar(props) {
         <li css={navbarItemStyle}>
           <Link href="/">
             <a>
-              <Image src={logo} width="120px" height="60px" />
+              <Image src={logo} width="140px" height="60px" />
             </a>
           </Link>
         </li>

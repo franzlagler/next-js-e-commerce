@@ -18,14 +18,17 @@ const singleProductContainerStyle = css`
   align-items: center;
   row-gap: 30px;
   width: 360px;
-  height: 100%;
+  height: 450px;
   padding: 20px 40px;
   background-color: #fff;
   border: 3px solid #212529;
   border-radius: 10px;
+  font-size: 22px;
+
   color: #212529;
   transform: scale(1);
   transition: transform 1s;
+
   &:hover {
     transform: scale(1.03);
     transition: transform 1s;
@@ -39,11 +42,12 @@ const productHyperlinkStyle = css`
 
 const productHeadingStyle = css`
   min-height: 60px;
+  font-size: 30px;
 `;
 
 const productPriceStyle = css`
-  font-size: 22px;
   font-weight: bolder;
+  font-size: 28px;
 `;
 function Products(props) {
   return (

@@ -9,12 +9,15 @@ import { getProducts } from '../util/productData';
 
 const orderContainerStyle = css`
   display: grid;
+  flex-wrap: wrap;
   row-gap: 20px;
   justify-content: center;
+  margin: 0 auto;
   padding: 40px 80px;
   background-color: #fff;
   border: 3px solid #212529;
   border-radius: 15px;
+  font-size: 22px;
 `;
 
 const orderMainHeadingStyle = css`
@@ -24,14 +27,25 @@ const orderMainHeadingStyle = css`
 const orderSingleProductContainerStyle = css`
   display: grid;
   row-gap: 25px;
+  width: 450px;
   margin: 10px 0;
-  padding: 20px 15px;
+  padding: 25px;
   border: 3px solid #212529;
   border-radius: 10px;
+  font-size: 20px;
+`;
+
+const productHeadingStyle = css`
+  font-size: 30px;
+`;
+
+const productPriceStyle = css`
+  font-size: 28px;
+  font-weight: bolder;
 `;
 
 const totalPriceStyle = css`
-  font-size: 30px;
+  font-size: 40px;
   font-weight: bolder;
 `;
 
@@ -45,6 +59,8 @@ const horizontalRulerStyle = css`
 function Cart(props) {
   const [order, setOrder] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+
+  const shippingCosts = 4.95;
 
   useEffect(() => {
     const chosenProducts = [];
@@ -62,7 +78,11 @@ function Cart(props) {
   useEffect(() => {
     setTotalPrice(() => {
       const allPrices = order.map((el) => el.price * el.amount);
-      const total = allPrices.reduce((acc, nextVal) => (acc += nextVal), 0);
+      let total = allPrices.reduce((acc, nextVal) => (acc += nextVal), 0);
+      if (total < 30 && total !== 0) {
+        total += shippingCosts;
+      }
+
       setTotalPrice(total);
     });
   }, [order]);
@@ -81,14 +101,17 @@ function Cart(props) {
               key={`product-${el.id}`}
               css={orderSingleProductContainerStyle}
             >
-              <h2>{el.name}</h2>
+              <h2 css={productHeadingStyle}>{el.name}</h2>
               <Image
                 src={`/images/img${el.id}.svg`}
                 alt="product"
                 width="70"
                 height="70"
               />
-              <p>Product Price: {el.price.toFixed(2)}€</p>
+              <p>
+                <span css={productPriceStyle}>{el.price.toFixed(2)}€</span> per
+                unit
+              </p>
 
               <AmountInput
                 value={el.amount}
@@ -105,9 +128,22 @@ function Cart(props) {
             </div>
           );
         })}
+
+        <p>
+          Subtotal:{' '}
+          {totalPrice - shippingCosts > 0
+            ? (totalPrice - shippingCosts).toFixed(2)
+            : '0.00'}
+          €
+        </p>
+
+        {totalPrice < 30 && totalPrice !== 0
+          ? `Shipping Costs: ${shippingCosts}€`
+          : 'Shipping Costs: 0.00€'}
         <hr css={horizontalRulerStyle} />
+
         <p css={totalPriceStyle}>Total: {Number(totalPrice).toFixed(2)}€</p>
-        <BigButton name="Checkout" />
+        <BigButton name="Checkout" disabled={totalPrice !== 0 ? false : true} />
       </div>
     </>
   );

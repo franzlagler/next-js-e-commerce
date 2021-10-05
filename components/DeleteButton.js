@@ -7,6 +7,7 @@ const deleteButtonStyle = css`
   border: 0;
   color: #fc5d3d;
   cursor: pointer;
+  font-size: 16px;
 `;
 
 function DeleteButton(props) {

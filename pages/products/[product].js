@@ -9,9 +9,10 @@ const singleProductContainerStyle = css`
   display: grid;
   justify-content: center;
   grid-gap: 44px;
-  padding: 40px 200px;
+  padding: 40px 150px;
   border: 3px solid #212529;
   border-radius: 15px;
+  font-size: 22px;
 `;
 
 const singleProductHeading = css`
@@ -20,18 +21,18 @@ const singleProductHeading = css`
 `;
 
 const singleProductDescription = css`
-  font-size: 20px;
+  font-size: 22px;
   line-height: 1.4;
 `;
 
 const singleProductPrice = css`
-  font-size: 30px;
+  font-size: 35px;
   font-weight: bolder;
 `;
 
 const spanTextStyle = css`
   font-weight: normal;
-  font-size: 16px;
+  font-size: 20px;
 `;
 
 export default function product(props) {
