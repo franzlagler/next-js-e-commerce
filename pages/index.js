@@ -66,10 +66,6 @@ const singleReviewHeading = css`
   font-size: 34px;
 `;
 
-const singleReviewImage = css`
-  margin: 0 auto;
-`;
-
 export default function Home(props) {
   return (
     <>
@@ -111,7 +107,6 @@ export default function Home(props) {
                 width="120"
                 height="120"
                 alt="review author"
-                css={singleReviewImage}
               />
               <p>«{el.description}»</p>
             </div>

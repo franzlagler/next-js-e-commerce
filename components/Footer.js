@@ -11,51 +11,30 @@ const footerContainerStyle = css`
 `;
 
 const maxWidthContainer = css`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  grid-gap: 20px;
   max-width: 800px;
-  height: 100%;
   margin: 0 auto;
+  height: 100%;
 `;
 
-const socialMediaContainerStyle = css`
-  width: 200px;
-  display: grid;
-  justify-content: start;
-  grid-gap: 10px;
-`;
-
-const socialMediaHeadingStyle = css`
-  margin-bottom: 4px;
-`;
-
-const paymentContainerStyle = css`
-  width: 200px;
-  display: grid;
-  grid-gap: 10px;
-  justify-content: end;
-`;
-
-const paymentImagesContainerStyle = css`
+const socialMediaImageContainerStyle = css`
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
+  grid-gap: 10px;
 `;
+
 function Footer() {
   return (
     <div css={footerContainerStyle}>
       <div css={maxWidthContainer}>
-        <div css={socialMediaContainerStyle}>
-          <h3 css={socialMediaHeadingStyle}>Follow us</h3>
+        <h3>For orders over 30€, we offer free shipping.</h3>
+        <div css={socialMediaImageContainerStyle}>
           <Image src="/images/instagram.svg" width="30px" height="30px" />
           <Image src="/images/twitter.svg" width="30px" height="30px" />
-        </div>
-        <div css={paymentContainerStyle}>
-          <div css={paymentImagesContainerStyle}>
-            <Image src="/images/apple_pay.svg" width="60px" height="60px" />
-            <Image src="/images/google_pay.svg" width="100px" height="60px" />
-          </div>
-          <h3>Free shipping is valid on orders of 30€ or more.</h3>
+          <Image src="/images/tik-tok.svg" width="30px" height="30px" />
         </div>
       </div>
     </div>
