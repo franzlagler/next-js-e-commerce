@@ -1,22 +1,6 @@
 import dotenvSafe from 'dotenv-safe';
 import postgres from 'postgres';
 
-/* import product1 from '../public/images/product1.svg';
-import product10 from '../public/images/product10.svg';
-import product11 from '../public/images/product11.svg';
-import product12 from '../public/images/product12.svg';
-import product13 from '../public/images/product13.svg';
-import product14 from '../public/images/product14.svg';
-import product15 from '../public/images/product15.svg';
-import product2 from '../public/images/product2.svg';
-import product3 from '../public/images/product3.svg';
-import product4 from '../public/images/product4.svg';
-import product5 from '../public/images/product5.svg';
-import product6 from '../public/images/product6.svg';
-import product7 from '../public/images/product7.svg';
-import product8 from '../public/images/product8.svg';
-import product9 from '../public/images/product9.svg'; */
-
 dotenvSafe.config();
 
 function connectOneTimeToDatabase() {

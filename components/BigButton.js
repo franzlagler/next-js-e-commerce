@@ -8,9 +8,6 @@ const buttonStyle = css`
   border-radius: 5px;
   font-size: 22px;
   cursor: pointer;
-  &:active {
-    transform: scale(0.98);
-  }
   &:disabled {
     background-color: #ced4da;
     opacity: 0.5;

@@ -22,6 +22,7 @@ const orderContainerStyle = css`
 
 const orderMainHeadingStyle = css`
   font-size: 50px;
+  text-align: center;
 `;
 
 const orderSingleProductContainerStyle = css`
@@ -56,7 +57,7 @@ const horizontalRulerStyle = css`
   border-radius: 2px;
 `;
 
-function Cart(props) {
+export default function Cart(props) {
   const [order, setOrder] = useState([]);
   const [subTotal, setSubTotal] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -96,7 +97,7 @@ function Cart(props) {
         <title>Cart</title>
       </Head>
       <div css={orderContainerStyle}>
-        <h1 css={orderMainHeadingStyle}>Review Your Order</h1>
+        <h1 css={orderMainHeadingStyle}>Review Order</h1>
         {order.length === 0 && <p>Your shopping cart is currently empty.</p>}
         {order.map((el) => {
           return (
@@ -145,8 +146,6 @@ function Cart(props) {
     </>
   );
 }
-
-export default Cart;
 
 export async function getServerSideProps() {
   const products = await getProducts();

@@ -17,7 +17,7 @@ const globalStyle = css`
   }
 `;
 
-function MyApp({ Component, pageProps }) {
+export default function MyApp({ Component, pageProps }) {
   const [cookies, setCookies] = useState([1]);
   const [amount, setAmount] = useState(() => {
     const valueArray = [];
@@ -151,7 +151,6 @@ function MyApp({ Component, pageProps }) {
     updateCookies(updatedArray);
   };
 
-  // Fetch cookie on start
   useEffect(() => {
     if (Cookies.get('order') === undefined) {
       Cookies.set('order', JSON.stringify([]));
@@ -181,5 +180,3 @@ function MyApp({ Component, pageProps }) {
     </>
   );
 }
-
-export default MyApp;

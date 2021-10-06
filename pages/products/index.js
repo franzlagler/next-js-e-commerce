@@ -2,15 +2,17 @@ import { css } from '@emotion/react';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import AmountInput from '../../components/AmountInput';
 import BigButton from '../../components/BigButton';
+import SearchBar from '../../components/SearchBar';
 import { getProducts } from '../../util/productData';
 
 const productsContainerStyle = css`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  grid-gap: 40px;
+  grid-gap: 60px 80px;
 `;
 
 const singleProductContainerStyle = css`
@@ -49,14 +51,60 @@ const productPriceStyle = css`
   font-weight: bolder;
   font-size: 28px;
 `;
-function Products(props) {
+export default function Products(props) {
+  const [searchInput, setSearchInput] = useState('');
+  const [filterMethod, setFilterMethod] = useState(() => {
+    return (el) => el;
+  });
+  const handleSearchInputChange = ({ currentTarget }) => {
+    const input = currentTarget.value;
+    setSearchInput(input);
+  };
+
+  const normalizeContent = (input) => {
+    let splitString = input.split(' ');
+    splitString = splitString.map((el) => {
+      return (
+        el.slice(0, 1).toUpperCase() + el.slice(1, el.length).toLowerCase()
+      );
+    });
+
+    return splitString.join(' ');
+  };
+
+  useEffect(() => {
+    const normalizedContent = normalizeContent(searchInput);
+    if (normalizedContent.length !== 0) {
+      setFilterMethod(() => {
+        return (el) => {
+          if (el.name.startsWith(normalizedContent)) {
+            return el;
+          }
+
+          return;
+        };
+      });
+    } else {
+      setFilterMethod(() => {
+        return (el) => el;
+      });
+    }
+  }, [searchInput]);
   return (
     <>
       <Head>
         <title>Products</title>
       </Head>
+
+      <SearchBar
+        searchInput={searchInput}
+        handleSearchInputChange={handleSearchInputChange}
+      />
+      {props.productData.filter(filterMethod).length < 1 && (
+        <p>No items found.</p>
+      )}
       <div css={productsContainerStyle}>
-        {props.productData.map((product, index) => {
+        {props.productData.filter(filterMethod).map((product, index) => {
           return (
             <div key={`product-${product.id}`}>
               <div css={singleProductContainerStyle}>
@@ -93,8 +141,6 @@ function Products(props) {
     </>
   );
 }
-
-export default Products;
 
 export async function getServerSideProps() {
   const products = await getProducts();

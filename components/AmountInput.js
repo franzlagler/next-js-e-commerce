@@ -27,6 +27,11 @@ const amountInputFieldStyle = css`
   &::-webkit-inner-spin-button {
     appearance: none;
   }
+  -moz-appearance: textfield;
+  &:disabled {
+    background-color: #fff;
+    color: #212529;
+  }
 `;
 
 const incrementDecrementButton = css`

@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
 const deleteButtonStyle = css`
-  width: 20px;
+  width: fit-content;
   display: inline-block;
   background-color: inherit;
   border: 0;

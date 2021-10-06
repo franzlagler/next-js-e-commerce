@@ -4,6 +4,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import BigButton from '../components/BigButton';
+import MassiveButton from '../components/MassiveButton';
 import uncleSam from '../public/images/uncle-sam.svg';
 import { getReviews } from '../util/productData';
 
@@ -52,17 +53,17 @@ const reviewsContainerStyle = css`
 
 const singleReviewContainer = css`
   display: grid;
-  grid-gap: 20px;
+  grid-gap: 25px;
   width: 350px;
   padding: 20px 40px;
   border: 3px solid #212529;
   border-radius: 15px;
-  font-size: 20px;
-  line-height: 1.3;
+  font-size: 22px;
+  line-height: 1.4;
 `;
 
 const singleReviewHeading = css`
-  font-size: 30px;
+  font-size: 34px;
 `;
 
 const singleReviewImage = css`
@@ -84,7 +85,7 @@ export default function Home(props) {
           </h1>
           <Link href="/products">
             <a>
-              <BigButton name="Go To Shop" />
+              <MassiveButton name="Go To Shop" />
             </a>
           </Link>
         </div>
@@ -112,7 +113,7 @@ export default function Home(props) {
                 alt="review author"
                 css={singleReviewImage}
               />
-              <p>« {el.description} »</p>
+              <p>«{el.description}»</p>
             </div>
           );
         })}

@@ -3,6 +3,7 @@ import Footer from './Footer';
 import Navbar from './Navbar';
 
 const pageContainerStyle = css`
+  min-height: 100vh;
   overflow: hidden;
   position: relative;
 `;
