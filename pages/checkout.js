@@ -101,7 +101,7 @@ export default function Checkout(props) {
         <div css={cardElementBorderContainer}>
           <CardElement id="card" options={cardOptions} />
         </div>
-        <BigButton name={`Pay ${props.totalPrice}€ now`} />
+        <BigButton name={`Pay ${props.totalPrice.toFixed(2)}€ now`} />
       </form>
     </>
   );

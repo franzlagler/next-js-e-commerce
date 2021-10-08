@@ -77,10 +77,11 @@ export default function Products(props) {
     if (normalizedContent.length !== 0) {
       setFilterMethod(() => {
         return (el) => {
-          if (el.name.startsWith(normalizedContent)) {
+          const newEl = el.name.replace(/\(|\)/g, '');
+
+          if (newEl.includes(normalizedContent)) {
             return el;
           }
-
           return;
         };
       });

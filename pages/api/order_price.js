@@ -20,7 +20,6 @@ export default async function handler(req, res) {
     const subtotal = allPrices.reduce((acc, nextVal) => (acc += nextVal), 0);
 
     let total;
-
     if (subtotal < 30 && subtotal !== 0) {
       total = subtotal + 4.95;
     } else {
