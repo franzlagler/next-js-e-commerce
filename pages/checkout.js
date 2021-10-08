@@ -1,9 +1,7 @@
 import { css } from '@emotion/react';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
-import axios from 'axios';
 import Router from 'next/router';
 import { useEffect, useState } from 'react';
-import Stripe from 'stripe';
 import BigButton from '../components/BigButton';
 import InputField from '../components/InputField';
 
@@ -61,7 +59,7 @@ export default function Checkout(props) {
       .then((data) => {
         setClientSecret(data.clientSecret);
       });
-  }, []);
+  }, [props.totalPrice]);
 
   const handleCheckoutClick = async (e) => {
     e.preventDefault();

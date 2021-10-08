@@ -3,7 +3,6 @@ import { css } from '@emotion/react';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import BigButton from '../components/BigButton';
 import MassiveButton from '../components/MassiveButton';
 import uncleSam from '../public/images/uncle-sam.svg';
 import { getReviews } from '../util/productData';

@@ -1,5 +1,4 @@
 import { css } from '@emotion/react';
-import { useState } from 'react';
 import search from '../public/images/magnifying-glass.svg';
 
 const searchBarContainerStyle = css`
