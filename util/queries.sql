@@ -10,3 +10,10 @@ CREATE Table reviews(
   author VARCHAR(30),
   description VARCHAR(180)
 );
+
+CREATE Table orders(
+  order_id SERIAL,
+  date DATE REQUIRED,
+  address VARCHAR(100) REQUIRED,
+  total_price FLOAT,
+)

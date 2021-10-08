@@ -24,10 +24,6 @@ const heroHeadingStyle = css`
   color: #212529;
 `;
 
-const heroHeadingEmphasisStyle = css`
-  text-transform: uppercase;
-`;
-
 export default function Success() {
   return (
     <div css={heroContainerStyle}>

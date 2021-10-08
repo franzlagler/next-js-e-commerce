@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import BigButton from '../components/BigButton';
 import InputField from '../components/InputField';
@@ -52,6 +52,8 @@ export default function Checkout(props) {
   const stripe = useStripe();
   const elements = useElements();
 
+  const router = useRouter();
+
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
     window
@@ -84,7 +86,7 @@ export default function Checkout(props) {
       setIsProcessing(false);
       setIsFinished(true);
       props.handleDeleteCookie();
-      setTimeout(() => Router.push('/success'), 1000);
+      setTimeout(() => router.push('/success'), 1000);
       setTimeout(() => setIsFinished(false), 2000);
     }
     if (payload.error) {
