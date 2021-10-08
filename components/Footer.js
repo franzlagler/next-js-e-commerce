@@ -30,7 +30,7 @@ function Footer() {
   return (
     <div css={footerContainerStyle}>
       <div css={maxWidthContainer}>
-        <h3>For orders over 30€, we offer free shipping.</h3>
+        <p>For orders over 30€, we offer free shipping.</p>
         <div css={socialMediaImageContainerStyle}>
           <Image src="/images/instagram.svg" width="30px" height="30px" />
           <Image src="/images/twitter.svg" width="30px" height="30px" />

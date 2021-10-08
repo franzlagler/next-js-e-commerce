@@ -1,4 +1,6 @@
 import { css, Global } from '@emotion/react';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
@@ -17,6 +19,10 @@ const globalStyle = css`
   }
 `;
 
+const stripePromise = loadStripe(
+  String(process.env.NEXT_PUBLIC_PUBLISHABLE_KEY),
+);
+
 export default function MyApp({ Component, pageProps }) {
   const [cookies, setCookies] = useState([1]);
   const [amount, setAmount] = useState(() => {
@@ -26,6 +32,7 @@ export default function MyApp({ Component, pageProps }) {
     }
     return valueArray;
   });
+  const [totalPrice, setTotalPrice] = useState(0);
 
   const updateCookies = (newInput) => {
     Cookies.set('order', JSON.stringify(newInput));
@@ -119,6 +126,10 @@ export default function MyApp({ Component, pageProps }) {
     updateCookies(filteredArray);
   };
 
+  const handleDeleteAll = () => {
+    updateCookies([]);
+  };
+
   // Update Product Amount in Cart
   const handleUpdateAmountCartClick = (e, id) => {
     const buttonName = e.currentTarget.name;
@@ -165,17 +176,22 @@ export default function MyApp({ Component, pageProps }) {
     <>
       <Global styles={globalStyle} />
       <Layout cookies={cookies}>
-        <Component
-          {...pageProps}
-          cookies={cookies}
-          amount={amount}
-          handleAddClick={handleAddClick}
-          handleDeleteProduct={handleDeleteProduct}
-          handleIncrementClick={handleIncrementClick}
-          handleDecrementClick={handleDecrementClick}
-          handleUpdateAmountCartClick={handleUpdateAmountCartClick}
-          setAmount={setAmount}
-        />
+        <Elements stripe={stripePromise}>
+          <Component
+            {...pageProps}
+            cookies={cookies}
+            amount={amount}
+            totalPrice={totalPrice}
+            setTotalPrice={setTotalPrice}
+            handleAddClick={handleAddClick}
+            handleDeleteProduct={handleDeleteProduct}
+            handleDeleteAll={handleDeleteAll}
+            handleIncrementClick={handleIncrementClick}
+            handleDecrementClick={handleDecrementClick}
+            handleUpdateAmountCartClick={handleUpdateAmountCartClick}
+            setAmount={setAmount}
+          />
+        </Elements>
       </Layout>
     </>
   );

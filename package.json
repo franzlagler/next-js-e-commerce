@@ -11,6 +11,9 @@
   "dependencies": {
     "@emotion/babel-plugin": "^11.3.0",
     "@emotion/react": "^11.4.1",
+    "@stripe/react-stripe-js": "^1.6.0",
+    "@stripe/stripe-js": "^1.19.1",
+    "axios": "^0.22.0",
     "dotenv-safe": "^8.2.0",
     "js-cookie": "^3.0.1",
     "next": "11.1.2",
@@ -18,7 +21,8 @@
     "postgres": "^1.0.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-responsive-carousel": "^3.2.21"
+    "react-responsive-carousel": "^3.2.21",
+    "stripe": "^8.178.0"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.15.4",

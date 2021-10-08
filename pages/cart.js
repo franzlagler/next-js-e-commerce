@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import AmountInput from '../components/AmountInput';
 import BigButton from '../components/BigButton';
@@ -21,27 +22,34 @@ const orderContainerStyle = css`
 `;
 
 const orderMainHeadingStyle = css`
-  font-size: 50px;
+  font-size: 60px;
+  margin-bottom: 20px;
   text-align: center;
 `;
 
 const orderSingleProductContainerStyle = css`
-  display: grid;
-  row-gap: 25px;
-  width: 450px;
+  display: flex;
+  width: 500px;
   margin: 10px 0;
   padding: 25px;
   border: 3px solid #212529;
   border-radius: 10px;
-  font-size: 20px;
+  font-size: 18px;
+`;
+
+const orderSingleProductSection1Style = css`
+  display: grid;
+  grid-gap: 20px;
+  width: 70%;
 `;
 
 const productHeadingStyle = css`
   font-size: 30px;
+  margin-bottom: 10px;
 `;
 
 const productPriceStyle = css`
-  font-size: 28px;
+  font-size: 22px;
   font-weight: bolder;
 `;
 
@@ -60,36 +68,25 @@ const horizontalRulerStyle = css`
 export default function Cart(props) {
   const [order, setOrder] = useState([]);
   const [subTotal, setSubTotal] = useState(0);
-  const [totalPrice, setTotalPrice] = useState(0);
 
   const shippingCosts = 4.95;
 
   useEffect(() => {
-    const chosenProducts = [];
-    for (let i = 0; i < props.cookies.length; i++) {
-      for (let j = 0; j < props.productData.length; j++) {
-        if (props.cookies[i].id === props.productData[j].id) {
-          chosenProducts.push(props.productData[j]);
-          chosenProducts[i].amount = props.cookies[i].amount;
-        }
-      }
-    }
-    setOrder(chosenProducts);
-  }, [props.cookies, props.productData]);
-
-  useEffect(() => {
-    setTotalPrice(() => {
-      const allPrices = order.map((el) => el.price * el.amount);
-      const provTotal = allPrices.reduce((acc, nextVal) => (acc += nextVal), 0);
-      setSubTotal(provTotal);
-      if (provTotal < 30 && provTotal !== 0) {
-        setTotalPrice(provTotal + shippingCosts);
-        return;
-      }
-
-      setTotalPrice(provTotal);
-    });
-  }, [order]);
+    window
+      .fetch('/api/order_price', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ cookies: props.cookies }),
+      })
+      .then((res) => res.json())
+      .then(({ orderedProducts, subtotal, total }) => {
+        setOrder(orderedProducts);
+        setSubTotal(subtotal);
+        props.setTotalPrice(total);
+      });
+  }, [props, props.cookies]);
 
   return (
     <>
@@ -99,49 +96,62 @@ export default function Cart(props) {
       <div css={orderContainerStyle}>
         <h1 css={orderMainHeadingStyle}>Review Order</h1>
         {order.length === 0 && <p>Your shopping cart is currently empty.</p>}
-        {order.map((el) => {
-          return (
-            <div
-              key={`product-${el.id}`}
-              css={orderSingleProductContainerStyle}
-            >
-              <h2 css={productHeadingStyle}>{el.name}</h2>
-              <Image
-                src={`/images/img${el.id}.svg`}
-                alt="product"
-                width="70"
-                height="70"
-              />
-              <p>
-                <span css={productPriceStyle}>{el.price.toFixed(2)}€</span> per
-                unit
-              </p>
+        {order.length !== 0 &&
+          order.map((el) => {
+            return (
+              <div
+                key={`product-${el.id}`}
+                css={orderSingleProductContainerStyle}
+              >
+                <div css={orderSingleProductSection1Style}>
+                  <h2 css={productHeadingStyle}>{el.name}</h2>
 
-              <AmountInput
-                value={el.amount}
-                handleIncrementClick={(e) =>
-                  props.handleUpdateAmountCartClick(e, el.id)
-                }
-                handleDecrementClick={(e) =>
-                  props.handleUpdateAmountCartClick(e, el.id)
-                }
-              />
-              <DeleteButton
-                handleDeleteProduct={() => props.handleDeleteProduct(el.id)}
-              />
-            </div>
-          );
-        })}
+                  <p>
+                    <span css={productPriceStyle}>{el.price.toFixed(2)}€</span>{' '}
+                    per unit
+                  </p>
 
-        <p>Subtotal: {subTotal.toFixed(2)}€</p>
+                  <AmountInput
+                    value={el.amount}
+                    handleIncrementClick={(e) =>
+                      props.handleUpdateAmountCartClick(e, el.id)
+                    }
+                    handleDecrementClick={(e) =>
+                      props.handleUpdateAmountCartClick(e, el.id)
+                    }
+                  />
+                  <DeleteButton
+                    handleDeleteProduct={() => props.handleDeleteProduct(el.id)}
+                  />
+                </div>
+                <Image
+                  src={`/images/img${el.id}.svg`}
+                  alt="product"
+                  width={90}
+                  height={90}
+                />
+              </div>
+            );
+          })}
+
+        <p>Subtotal: {Number(subTotal).toFixed(2)}€</p>
 
         {subTotal < 30 && subTotal !== 0
           ? `Shipping Costs: ${shippingCosts}€`
           : 'Shipping Costs: 0.00€'}
         <hr css={horizontalRulerStyle} />
 
-        <p css={totalPriceStyle}>Total: {Number(totalPrice).toFixed(2)}€</p>
-        <BigButton name="Checkout" disabled={totalPrice !== 0 ? false : true} />
+        <p css={totalPriceStyle}>
+          Total: {Number(props.totalPrice).toFixed(2)}€
+        </p>
+        <Link href="/checkout">
+          <a>
+            <BigButton
+              name="Go To Checkout"
+              disabled={props.totalPrice !== 0 ? false : true}
+            />
+          </a>
+        </Link>
       </div>
     </>
   );

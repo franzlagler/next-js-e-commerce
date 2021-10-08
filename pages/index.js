@@ -7,6 +7,7 @@ import BigButton from '../components/BigButton';
 import MassiveButton from '../components/MassiveButton';
 import uncleSam from '../public/images/uncle-sam.svg';
 import { getReviews } from '../util/productData';
+import { getPrice } from '../util/totalPrice';
 
 const heroContainerStyle = css`
   display: flex;
@@ -118,7 +119,9 @@ export default function Home(props) {
 }
 export async function getServerSideProps() {
   const reviews = await getReviews();
-  console.log(reviews);
+  const cookies = await getPrice();
+  console.log(cookies);
+
   return {
     props: { reviews: reviews }, // will be passed to the page component as props
   };
