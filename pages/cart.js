@@ -146,10 +146,9 @@ export default function Cart(props) {
         </p>
         <Link href="/checkout">
           <a>
-            <BigButton
-              name="Go To Checkout"
-              disabled={props.totalPrice !== 0 ? false : true}
-            />
+            <BigButton disabled={props.totalPrice !== 0 ? false : true}>
+              Go To Checkout
+            </BigButton>
           </a>
         </Link>
       </div>

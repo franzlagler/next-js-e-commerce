@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import Head from 'next/head';
 import Image from 'next/image';
 import AmountInput from '../../components/AmountInput';
-import AddToCartButton from '../../components/BigButton';
+import BigButton from '../../components/BigButton';
 import { getProducts } from '../../util/productData';
 
 const singleProductContainerStyle = css`
@@ -69,16 +69,17 @@ export default function product(props) {
           handleIncrementClick={() => props.handleIncrementClick(props.index)}
           handleDecrementClick={() => props.handleDecrementClick(props.index)}
         />
-        <AddToCartButton
-          handleAddClick={() =>
+        <BigButton
+          onClick={() =>
             props.handleAddClick(
               props.singleProduct.id,
               props.amount[props.index],
             )
           }
           index={props.index}
-          name="Add to Cart"
-        />
+        >
+          Add To Cart
+        </BigButton>
       </div>
     </>
   );

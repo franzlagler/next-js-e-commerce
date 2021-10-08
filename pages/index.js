@@ -69,11 +69,12 @@ const singleReviewHeading = css`
 export default function Home(props) {
   return (
     <>
+      <Head>
+        <title>American Candy</title>
+      </Head>
       <div css={heroContainerStyle}>
         <Image src={uncleSam} alt="Uncle Sam" width="350" height="350" />
-        <Head>
-          <title>American Candy</title>
-        </Head>
+
         <div>
           <h1 css={heroHeadingStyle}>
             I want <span css={heroHeadingEmphasisStyle}>you</span> to buy candy,

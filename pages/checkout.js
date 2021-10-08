@@ -5,6 +5,12 @@ import { useEffect, useState } from 'react';
 import BigButton from '../components/BigButton';
 import InputField from '../components/InputField';
 
+const checkoutContainer = css`
+  padding: 40px 80px;
+  border: 3px solid #212529;
+  border-radius: 15px;
+`;
+
 const mainHeading = css`
   text-align: center;
   font-size: 50px;
@@ -22,6 +28,7 @@ const cardElementBorderContainer = css`
   align-items: center;
   height: 50px;
   padding: 5px 10px;
+  margin-bottom: 30px;
   border: 3px solid #212529;
   border-radius: 10px;
 `;
@@ -35,11 +42,13 @@ const cardOptions = {
 };
 
 const formContainer = css`
-  padding: 0 100px;
+  padding: 0 50px;
 `;
 
 export default function Checkout(props) {
   const [clientSecret, setClientSecret] = useState('');
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
 
@@ -62,6 +71,7 @@ export default function Checkout(props) {
   }, [props.totalPrice]);
 
   const handleCheckoutClick = async (e) => {
+    setIsProcessing(true);
     e.preventDefault();
 
     const payload = await stripe.confirmCardPayment(clientSecret, {
@@ -71,8 +81,11 @@ export default function Checkout(props) {
     });
 
     if (payload.paymentIntent.status === 'succeeded') {
-      props.handleDeleteAll();
-      Router.push('/success');
+      setIsProcessing(false);
+      setIsFinished(true);
+      props.handleDeleteCookie();
+      setTimeout(() => Router.push('/success'), 1000);
+      setTimeout(() => setIsFinished(false), 2000);
     }
     if (payload.error) {
       console.log(payload.error.message);
@@ -80,7 +93,7 @@ export default function Checkout(props) {
   };
 
   return (
-    <>
+    <div css={checkoutContainer}>
       <h1 css={mainHeading}>Checkout</h1>
       <form onSubmit={handleCheckoutClick} css={formContainer}>
         <InputField id="name" fieldName="Name" placeholder="Jane Doe" />
@@ -101,8 +114,16 @@ export default function Checkout(props) {
         <div css={cardElementBorderContainer}>
           <CardElement id="card" options={cardOptions} />
         </div>
-        <BigButton name={`Pay ${props.totalPrice.toFixed(2)}€ now`} />
+        {!isProcessing && !isFinished && (
+          <BigButton>{`Pay ${props.totalPrice.toFixed(2)}€ now`}</BigButton>
+        )}
+        {isProcessing && (
+          <BigButton backgroundColor="#ffba08">Processing...</BigButton>
+        )}
+        {isFinished && (
+          <BigButton backgroundColor="#74c69d">Payment Complete!</BigButton>
+        )}
       </form>
-    </>
+    </div>
   );
 }

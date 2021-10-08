@@ -1,10 +1,11 @@
-import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
-const buttonStyle = css`
+const BigButton = styled.button`
   width: 100%;
   max-height: 50px;
   padding: 10px 20px;
-  background-color: #fc5d3d;
+  background-color: ${(props) =>
+    props.backgroundColor ? props.backgroundColor : '#fc5d3d'};
   border: 2px solid #212529;
   border-radius: 5px;
   font-size: 22px;
@@ -17,7 +18,8 @@ const buttonStyle = css`
   }
 `;
 
-function BigButton(props) {
+export default BigButton;
+/* function BigButton(props) {
   return (
     <button
       onClick={props.handleAddClick}
@@ -28,5 +30,4 @@ function BigButton(props) {
     </button>
   );
 }
-
-export default BigButton;
+ */

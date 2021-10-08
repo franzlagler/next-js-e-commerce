@@ -126,7 +126,8 @@ export default function MyApp({ Component, pageProps }) {
     updateCookies(filteredArray);
   };
 
-  const handleDeleteAll = () => {
+  const handleDeleteCookie = () => {
+    Cookies.remove('order');
     updateCookies([]);
   };
 
@@ -185,7 +186,7 @@ export default function MyApp({ Component, pageProps }) {
             setTotalPrice={setTotalPrice}
             handleAddClick={handleAddClick}
             handleDeleteProduct={handleDeleteProduct}
-            handleDeleteAll={handleDeleteAll}
+            handleDeleteCookie={handleDeleteCookie}
             handleIncrementClick={handleIncrementClick}
             handleDecrementClick={handleDecrementClick}
             handleUpdateAmountCartClick={handleUpdateAmountCartClick}

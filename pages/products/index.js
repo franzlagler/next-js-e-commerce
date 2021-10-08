@@ -129,11 +129,13 @@ export default function Products(props) {
                 />
                 <BigButton
                   name="Add to Cart"
-                  handleAddClick={() =>
+                  onClick={() =>
                     props.handleAddClick(product.id, props.amount[index])
                   }
                   index={index}
-                />
+                >
+                  Add To Cart
+                </BigButton>
               </div>
             </div>
           );
