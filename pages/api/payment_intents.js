@@ -10,10 +10,9 @@ export default async function handler(req, res) {
         amount,
         currency: 'eur',
       });
-
       res.status(200).send({ clientSecret: paymentIntent.client_secret });
     } catch (err) {
-      res.status(500).json({ statusCode: 500, messagr: err.message });
+      res.status(500).json({ statusCode: 500, message: err.message });
     }
   } else {
     res.setHeader('Allow', 'POST');

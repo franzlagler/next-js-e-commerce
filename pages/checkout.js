@@ -34,6 +34,8 @@ const cardElementBorderContainer = css`
 `;
 
 const cardOptions = {
+  hidePostalCode: true,
+
   style: {
     base: {
       fontSize: '20px',
@@ -55,21 +57,38 @@ export default function Checkout(props) {
   const router = useRouter();
 
   useEffect(() => {
-    // Create PaymentIntent as soon as the page loads
     window
-      .fetch('/api/payment_intents', {
+      .fetch('/api/order_price', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ amount: props.totalPrice * 100 }),
+        body: JSON.stringify({ cookies: props.cookies }),
       })
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setClientSecret(data.clientSecret);
+      .then((res) => res.json())
+      .then(({ total }) => {
+        props.setTotalPrice(total);
       });
+  }, [props]);
+
+  useEffect(() => {
+    if (props.totalPrice !== 0) {
+      window
+        .fetch('/api/payment_intents', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ amount: props.totalPrice * 100 }),
+        })
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          setClientSecret(data.clientSecret);
+          console.log(data);
+        });
+    }
   }, [props.totalPrice]);
 
   const handleCheckoutClick = async (e) => {
@@ -85,6 +104,7 @@ export default function Checkout(props) {
     if (payload.paymentIntent.status === 'succeeded') {
       setIsProcessing(false);
       setIsFinished(true);
+      setClientSecret('');
       props.handleDeleteCookie();
       setTimeout(() => router.push('/success'), 1000);
       setTimeout(() => setIsFinished(false), 2000);
@@ -105,6 +125,8 @@ export default function Checkout(props) {
           placeholder="Abby Spark Tree"
         />
         <InputField id="zip" fieldName="ZIP Code" placeholder="12345" />
+        <InputField id="city" fieldName="City" placeholder="Washington D.C." />
+
         <InputField
           id="country"
           fieldName="Country"
@@ -117,7 +139,9 @@ export default function Checkout(props) {
           <CardElement id="card" options={cardOptions} />
         </div>
         {!isProcessing && !isFinished && (
-          <BigButton>{`Pay ${props.totalPrice.toFixed(2)}€ now`}</BigButton>
+          <BigButton data-cy="pay-button">{`Pay ${props.totalPrice.toFixed(
+            2,
+          )}€ now`}</BigButton>
         )}
         {isProcessing && (
           <BigButton backgroundColor="#ffba08">Processing...</BigButton>

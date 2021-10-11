@@ -37,6 +37,7 @@ export default function CheckoutForm(props) {
         placeholder="Abby Spark Tree"
       />
       <InputField id="zip" fieldName="ZIP Code" placeholder="12345" />
+      <InputField id="city" fieldName="City" placeholder="Washington D.C." />
       <InputField
         id="country"
         fieldName="Country"

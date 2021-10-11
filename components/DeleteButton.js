@@ -1,6 +1,6 @@
-import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
-const deleteButtonStyle = css`
+const DeleteButton = styled.button`
   width: fit-content;
   display: inline-block;
   background-color: inherit;
@@ -9,13 +9,5 @@ const deleteButtonStyle = css`
   cursor: pointer;
   font-size: 14px;
 `;
-
-function DeleteButton(props) {
-  return (
-    <button css={deleteButtonStyle} onClick={props.handleDeleteProduct}>
-      Delete
-    </button>
-  );
-}
 
 export default DeleteButton;

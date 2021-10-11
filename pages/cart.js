@@ -97,7 +97,7 @@ export default function Cart(props) {
         <h1 css={orderMainHeadingStyle}>Review Order</h1>
         {order.length === 0 && <p>Your shopping cart is currently empty.</p>}
         {order.length !== 0 &&
-          order.map((el) => {
+          order.map((el, index) => {
             return (
               <div
                 key={`product-${el.id}`}
@@ -121,8 +121,11 @@ export default function Cart(props) {
                     }
                   />
                   <DeleteButton
-                    handleDeleteProduct={() => props.handleDeleteProduct(el.id)}
-                  />
+                    onClick={() => props.handleDeleteProduct(el.id)}
+                    data-cy={`delete-button-${index}`}
+                  >
+                    Delete
+                  </DeleteButton>
                 </div>
                 <Image
                   src={`/images/img${el.id}.svg`}
@@ -134,19 +137,22 @@ export default function Cart(props) {
             );
           })}
 
-        <p>Subtotal: {Number(subTotal).toFixed(2)}€</p>
+        <p>Subtotal: {subTotal.toFixed(2)}€</p>
 
-        {subTotal < 30 && subTotal !== 0
-          ? `Shipping Costs: ${shippingCosts}€`
-          : 'Shipping Costs: 0.00€'}
+        <p>
+          {subTotal < 30 && subTotal !== 0
+            ? `Shipping Costs: ${shippingCosts}€`
+            : 'Shipping Costs: 0.00€'}
+        </p>
         <hr css={horizontalRulerStyle} />
 
-        <p css={totalPriceStyle}>
-          Total: {Number(props.totalPrice).toFixed(2)}€
-        </p>
+        <p css={totalPriceStyle}>Total: {props.totalPrice.toFixed(2)}€</p>
         <Link href="/checkout">
           <a>
-            <BigButton disabled={props.totalPrice !== 0 ? false : true}>
+            <BigButton
+              disabled={props.totalPrice !== 0 ? false : true}
+              data-cy="checkout-button"
+            >
               Go To Checkout
             </BigButton>
           </a>

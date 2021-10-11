@@ -16,4 +16,4 @@ CREATE Table orders(
   date DATE REQUIRED,
   address VARCHAR(100) REQUIRED,
   total_price FLOAT,
-)
+);

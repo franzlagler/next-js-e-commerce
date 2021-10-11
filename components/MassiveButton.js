@@ -1,6 +1,6 @@
-import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
-const massiveButtonStyle = css`
+const MassiveButton = styled.button`
   padding: 10px 40px;
   background-color: #fc5d3d;
   border: 4px solid #212529;
@@ -9,9 +9,5 @@ const massiveButtonStyle = css`
   font-weight: bolder;
   cursor: pointer;
 `;
-
-function MassiveButton(props) {
-  return <button css={massiveButtonStyle}>{props.name}</button>;
-}
 
 export default MassiveButton;

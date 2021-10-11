@@ -19,7 +19,7 @@ const mainContainerStyle = css`
 function Layout({ children, ...props }) {
   return (
     <div css={pageContainerStyle}>
-      <Navbar cookies={props.cookies} />
+      <Navbar cookies={props.cookies} dataCy={props.dataCy} />
       <main css={mainContainerStyle}>{children}</main>
       <Footer />
     </div>

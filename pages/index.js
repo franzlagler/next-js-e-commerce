@@ -82,7 +82,7 @@ export default function Home(props) {
           </h1>
           <Link href="/products">
             <a>
-              <MassiveButton name="Go To Shop" />
+              <MassiveButton>Go To Shop</MassiveButton>
             </a>
           </Link>
         </div>

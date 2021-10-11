@@ -79,6 +79,7 @@ function AmountInput(props) {
           name="increment"
           css={incrementDecrementButton}
           onClick={(e) => props.handleIncrementClick(e)}
+          data-cy={props.dataCy}
         >
           +
         </button>

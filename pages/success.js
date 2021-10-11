@@ -33,7 +33,7 @@ export default function Success() {
         <h1 css={heroHeadingStyle}>Thank you for your purchase.</h1>
         <Link href="/">
           <a>
-            <MassiveButton name="Go To Home" />
+            <MassiveButton data-cy="home-button">Go To Home</MassiveButton>
           </a>
         </Link>
       </div>

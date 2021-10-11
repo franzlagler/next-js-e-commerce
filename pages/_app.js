@@ -176,7 +176,7 @@ export default function MyApp({ Component, pageProps }) {
   return (
     <>
       <Global styles={globalStyle} />
-      <Layout cookies={cookies}>
+      <Layout cookies={cookies} dataCy="cart-menu-item">
         <Elements stripe={stripePromise}>
           <Component
             {...pageProps}

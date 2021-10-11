@@ -126,6 +126,7 @@ export default function Products(props) {
                   value={props.amount[index]}
                   handleIncrementClick={() => props.handleIncrementClick(index)}
                   handleDecrementClick={() => props.handleDecrementClick(index)}
+                  dataCy={`amount-increase-${index}`}
                 />
                 <BigButton
                   name="Add to Cart"
@@ -133,6 +134,7 @@ export default function Products(props) {
                     props.handleAddClick(product.id, props.amount[index])
                   }
                   index={index}
+                  data-cy={`add-button-${index}`}
                 >
                   Add To Cart
                 </BigButton>
