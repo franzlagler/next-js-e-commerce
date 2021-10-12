@@ -1,12 +1,11 @@
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { css } from '@emotion/react';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import MassiveButton from '../components/MassiveButton';
 import uncleSam from '../public/images/uncle-sam.svg';
-import { getReviews } from '../util/productData';
-import { getPrice } from '../util/totalPrice';
+import { getReviews } from '../util/database';
+import { getPrice } from '../util/orderPrice';
 
 const heroContainerStyle = css`
   display: flex;
@@ -119,8 +118,6 @@ export default function Home(props) {
 }
 export async function getServerSideProps() {
   const reviews = await getReviews();
-  const cookies = await getPrice();
-  console.log(cookies);
 
   return {
     props: { reviews: reviews }, // will be passed to the page component as props

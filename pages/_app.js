@@ -1,9 +1,16 @@
 import { css, Global } from '@emotion/react';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
+import {
+  addItem,
+  checkItemExistence,
+  updateAmountInCart,
+  updateItem,
+} from '../util/cartItems';
+import { getCookies, setCookies, updateCookies } from '../util/cookies';
+import { decrementAmount, incrementAmount } from '../util/productAmount';
 
 const globalStyle = css`
   * {
@@ -17,6 +24,10 @@ const globalStyle = css`
     background-color: #f8f9fa;
     height: 100vh;
   }
+
+  a {
+    text-decoration: none;
+  }
 `;
 
 const stripePromise = loadStripe(
@@ -24,7 +35,7 @@ const stripePromise = loadStripe(
 );
 
 export default function MyApp({ Component, pageProps }) {
-  const [cookies, setCookies] = useState([1]);
+  const [cart, setCart] = useState([]);
   const [amount, setAmount] = useState(() => {
     const valueArray = [];
     for (let i = 0; i < 15; i++) {
@@ -34,23 +45,8 @@ export default function MyApp({ Component, pageProps }) {
   });
   const [totalPrice, setTotalPrice] = useState(0);
 
-  const updateCookies = (newInput) => {
-    Cookies.set('order', JSON.stringify(newInput));
-    setCookies(() => {
-      return JSON.parse(Cookies.get('order'));
-    });
-  };
-
   const handleIncrementClick = (productIndex) => {
-    const currentAmount = amount[productIndex];
-    let updatedAmount = currentAmount;
-
-    if (currentAmount >= 2 && currentAmount <= 8) {
-      updatedAmount += 1;
-    } else if (currentAmount === 1) {
-      updatedAmount += 1;
-    }
-
+    const updatedAmount = incrementAmount(productIndex, amount);
     setAmount(
       amount.map((el, index) => {
         if (index === productIndex) {
@@ -63,14 +59,7 @@ export default function MyApp({ Component, pageProps }) {
   };
 
   const handleDecrementClick = (productIndex) => {
-    const currentAmount = amount[productIndex];
-    let updatedAmount = currentAmount;
-
-    if (currentAmount >= 2 && currentAmount <= 8) {
-      updatedAmount -= 1;
-    } else if (currentAmount === 9) {
-      updatedAmount -= 1;
-    }
+    const updatedAmount = decrementAmount(productIndex, amount);
 
     setAmount(
       amount.map((el, index) => {
@@ -83,113 +72,67 @@ export default function MyApp({ Component, pageProps }) {
     );
   };
 
-  const checkIdExistence = (id) => {
-    if (cookies.find((el) => el.id === id)) return true;
-
-    return false;
-  };
   // Add item to cookie 'order'
   const handleAddClick = (id, productAmount) => {
     // Check if item with that id already exists
-    const idExists = checkIdExistence(id);
-
-    let updatedArray = JSON.parse(Cookies.get('order'));
-
+    const idExists = checkItemExistence(id, cart);
+    let newCart;
     if (idExists) {
-      updatedArray = updatedArray.map((el) => {
-        if (el.id === id) {
-          return {
-            id: el.id,
-            amount: el.amount + productAmount,
-          };
-        }
-
-        return el;
-      });
+      newCart = updateItem(id, cart, productAmount);
     } else {
-      const addedProduct = {
-        id: id,
-        amount: productAmount,
-      };
-      updatedArray.push(addedProduct);
+      newCart = addItem(id, cart, productAmount);
     }
 
-    updateCookies(updatedArray);
+    setCart(updateCookies('cart', newCart));
 
     setAmount(amount.map(() => 1));
   };
-  // Delete item from cookie 'order'
+  // Delete item from cookie 'cart'
   const handleDeleteProduct = (id) => {
-    console.log(id);
+    const filteredArray = cart.filter((el) => el.id !== id);
 
-    const filteredArray = cookies.filter((el) => el.id !== id);
-    updateCookies(filteredArray);
+    setCart(updateCookies('cart', filteredArray));
   };
 
-  const handleDeleteCookie = () => {
-    Cookies.remove('order');
-    updateCookies([]);
-  };
-
-  // Update Product Amount in Cart
+  // Update Product Amount on Cart Page
   const handleUpdateAmountCartClick = (e, id) => {
     const buttonName = e.currentTarget.name;
-    let updatedArray;
+    const updatedArray = updateAmountInCart(buttonName, id, cart);
 
-    if (buttonName === 'decrement') {
-      updatedArray = cookies.map((el) => {
-        if (el.id === id && el.amount !== 1) {
-          return {
-            ...el,
-            amount: el.amount - 1,
-          };
-        }
+    setCart(updateCookies('cart', updatedArray));
+  };
 
-        return el;
-      });
-    } else {
-      updatedArray = cookies.map((el) => {
-        if (el.id === id) {
-          return {
-            ...el,
-            amount: el.amount + 1,
-          };
-        }
+  // Delete Items in Cart
 
-        return el;
-      });
-    }
-
-    updateCookies(updatedArray);
+  const deleteAllItems = () => {
+    setCart(updateCookies('cart', []));
   };
 
   useEffect(() => {
-    if (Cookies.get('order') === undefined) {
-      Cookies.set('order', JSON.stringify([]));
+    if (!getCookies('cart')) {
+      setCookies('cart', []);
     }
 
-    setCookies(() => {
-      return JSON.parse(Cookies.get('order'));
-    });
+    setCart(getCookies('cart'));
   }, []);
 
   return (
     <>
       <Global styles={globalStyle} />
-      <Layout cookies={cookies} dataCy="cart-menu-item">
+      <Layout cart={cart} dataCy="cart-menu-item">
         <Elements stripe={stripePromise}>
           <Component
             {...pageProps}
-            cookies={cookies}
+            cart={cart}
             amount={amount}
             totalPrice={totalPrice}
             setTotalPrice={setTotalPrice}
             handleAddClick={handleAddClick}
             handleDeleteProduct={handleDeleteProduct}
-            handleDeleteCookie={handleDeleteCookie}
             handleIncrementClick={handleIncrementClick}
             handleDecrementClick={handleDecrementClick}
             handleUpdateAmountCartClick={handleUpdateAmountCartClick}
+            deleteAllItems={deleteAllItems}
             setAmount={setAmount}
           />
         </Elements>

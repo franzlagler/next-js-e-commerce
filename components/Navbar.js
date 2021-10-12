@@ -89,7 +89,7 @@ function Navbar(props) {
             <a css={navbarLinkStyle} data-cy={props.dataCy}>
               <div css={cartContainerStyle}>
                 <Image css={cartImageStyle} src={cart} width="40" height="40" />
-                <p css={selectedProductStyle}>{props.cookies.length}</p>
+                <p css={selectedProductStyle}>{props.cart.length}</p>
               </div>
             </a>
           </Link>

@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import AmountInput from '../../components/AmountInput';
 import BigButton from '../../components/BigButton';
 import SearchBar from '../../components/SearchBar';
-import { getProducts } from '../../util/productData';
+import { getProducts } from '../../util/database';
 
 const productsContainerStyle = css`
   display: flex;

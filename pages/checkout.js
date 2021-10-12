@@ -1,9 +1,11 @@
 import { css } from '@emotion/react';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import BigButton from '../components/BigButton';
 import InputField from '../components/InputField';
+import { getProducts } from '../util/database';
 
 const checkoutContainer = css`
   padding: 40px 80px;
@@ -53,7 +55,6 @@ export default function Checkout(props) {
   const [isFinished, setIsFinished] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
-
   const router = useRouter();
 
   useEffect(() => {
@@ -63,7 +64,7 @@ export default function Checkout(props) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ cookies: props.cookies }),
+        body: JSON.stringify({ cart: props.cart, products: props.products }),
       })
       .then((res) => res.json())
       .then(({ total }) => {
@@ -105,9 +106,9 @@ export default function Checkout(props) {
       setIsProcessing(false);
       setIsFinished(true);
       setClientSecret('');
-      props.handleDeleteCookie();
       setTimeout(() => router.push('/success'), 1000);
       setTimeout(() => setIsFinished(false), 2000);
+      props.deleteAllItems();
     }
     if (payload.error) {
       console.log(payload.error.message);
@@ -115,41 +116,59 @@ export default function Checkout(props) {
   };
 
   return (
-    <div css={checkoutContainer}>
-      <h1 css={mainHeading}>Checkout</h1>
-      <form onSubmit={handleCheckoutClick} css={formContainer}>
-        <InputField id="name" fieldName="Name" placeholder="Jane Doe" />
-        <InputField
-          id="street"
-          fieldName="Street"
-          placeholder="Abby Spark Tree"
-        />
-        <InputField id="zip" fieldName="ZIP Code" placeholder="12345" />
-        <InputField id="city" fieldName="City" placeholder="Washington D.C." />
+    <>
+      <Head>
+        <title>Checkout</title>
+      </Head>
+      <div css={checkoutContainer}>
+        <h1 css={mainHeading}>Checkout</h1>
+        <form onSubmit={handleCheckoutClick} css={formContainer}>
+          <InputField id="name" fieldName="Name" placeholder="Jane Doe" />
+          <InputField
+            id="street"
+            fieldName="Street"
+            placeholder="Abby Spark Tree"
+          />
+          <InputField id="zip" fieldName="ZIP Code" placeholder="12345" />
+          <InputField
+            id="city"
+            fieldName="City"
+            placeholder="Washington D.C."
+          />
 
-        <InputField
-          id="country"
-          fieldName="Country"
-          placeholder="United States"
-        />
-        <label htmlFor="card" css={cardLabel}>
-          Card Details
-        </label>
-        <div css={cardElementBorderContainer}>
-          <CardElement id="card" options={cardOptions} />
-        </div>
-        {!isProcessing && !isFinished && (
-          <BigButton data-cy="pay-button">{`Pay ${props.totalPrice.toFixed(
-            2,
-          )}€ now`}</BigButton>
-        )}
-        {isProcessing && (
-          <BigButton backgroundColor="#ffba08">Processing...</BigButton>
-        )}
-        {isFinished && (
-          <BigButton backgroundColor="#74c69d">Payment Complete!</BigButton>
-        )}
-      </form>
-    </div>
+          <InputField
+            id="country"
+            fieldName="Country"
+            placeholder="United States"
+          />
+          <label htmlFor="card" css={cardLabel}>
+            Card Details
+          </label>
+          <div css={cardElementBorderContainer}>
+            <CardElement id="card" options={cardOptions} />
+          </div>
+          {!isProcessing && !isFinished && (
+            <BigButton data-cy="pay-button">{`Pay ${Number(
+              props.totalPrice,
+            ).toFixed(2)}€ now`}</BigButton>
+          )}
+          {isProcessing && (
+            <BigButton backgroundColor="#ffba08">Processing...</BigButton>
+          )}
+          {isFinished && (
+            <BigButton backgroundColor="#74c69d">Payment Complete!</BigButton>
+          )}
+        </form>
+      </div>
+    </>
   );
+}
+export async function getServerSideProps() {
+  const products = await getProducts();
+
+  return {
+    props: {
+      products: products,
+    },
+  };
 }

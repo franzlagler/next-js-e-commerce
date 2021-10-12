@@ -1,8 +1,10 @@
 import styled from '@emotion/styled';
 
 const BigButton = styled.button`
-  width: 100%;
+  display: block;
+  width: ${(props) => (props.width ? props.width : '100%')};
   max-height: 50px;
+  margin: auto;
   padding: 10px 20px;
   background-color: ${(props) =>
     props.backgroundColor ? props.backgroundColor : '#fc5d3d'};
@@ -19,15 +21,3 @@ const BigButton = styled.button`
 `;
 
 export default BigButton;
-/* function BigButton(props) {
-  return (
-    <button
-      onClick={props.handleAddClick}
-      css={buttonStyle}
-      disabled={props.disabled}
-    >
-      {props.name}
-    </button>
-  );
-}
- */

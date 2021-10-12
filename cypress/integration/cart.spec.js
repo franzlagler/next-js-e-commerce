@@ -18,7 +18,7 @@ describe('Cart', () => {
     addProduct();
 
     cy.get("[data-cy='cart-menu-item']").click();
-    deleteProduct(0);
     deleteProduct(1);
+    deleteProduct(0);
   });
 });

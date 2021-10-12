@@ -1,4 +1,9 @@
 {
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/cypress"
+    ]
+  },
   "name": "next-js-e-commerce",
   "version": "0.1.0",
   "private": true,
@@ -7,7 +12,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "migrate": "dotenv ley"
+    "migrate": "dotenv ley",
+    "test": "jest"
   },
   "dependencies": {
     "@emotion/babel-plugin": "^11.3.0",
@@ -41,7 +47,6 @@
     "@upleveled/eslint-config-upleveled": "1.18.0",
     "@upleveled/eslint-plugin-upleveled": "^1.1.0",
     "cypress": "^8.5.0",
-    "cypress-plugin-stripe-elements": "^1.0.2",
     "eslint": "^7.23.0",
     "eslint-config-next": "11.1.2",
     "eslint-config-react-app": "^6.0.0",

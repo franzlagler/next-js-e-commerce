@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import AmountInput from '../components/AmountInput';
 import BigButton from '../components/BigButton';
 import DeleteButton from '../components/DeleteButton';
-import { getProducts } from '../util/productData';
+import { getProducts } from '../util/database';
 
 const orderContainerStyle = css`
   display: grid;
@@ -66,10 +66,8 @@ const horizontalRulerStyle = css`
 `;
 
 export default function Cart(props) {
-  const [order, setOrder] = useState([]);
+  const [selectedProducts, setSelectedProducts] = useState([]);
   const [subTotal, setSubTotal] = useState(0);
-
-  const shippingCosts = 4.95;
 
   useEffect(() => {
     window
@@ -78,15 +76,15 @@ export default function Cart(props) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ cookies: props.cookies }),
+        body: JSON.stringify({ cart: props.cart, products: props.products }),
       })
       .then((res) => res.json())
-      .then(({ orderedProducts, subtotal, total }) => {
-        setOrder(orderedProducts);
+      .then(({ chosenProducts, subtotal, total }) => {
+        setSelectedProducts(chosenProducts);
         setSubTotal(subtotal);
         props.setTotalPrice(total);
       });
-  }, [props, props.cookies]);
+  }, [props, props.cart]);
 
   return (
     <>
@@ -95,9 +93,11 @@ export default function Cart(props) {
       </Head>
       <div css={orderContainerStyle}>
         <h1 css={orderMainHeadingStyle}>Review Order</h1>
-        {order.length === 0 && <p>Your shopping cart is currently empty.</p>}
-        {order.length !== 0 &&
-          order.map((el, index) => {
+        {selectedProducts.length === 0 && (
+          <p>Your shopping cart is currently empty.</p>
+        )}
+        {selectedProducts.length !== 0 &&
+          selectedProducts.map((el, index) => {
             return (
               <div
                 key={`product-${el.id}`}
@@ -137,16 +137,18 @@ export default function Cart(props) {
             );
           })}
 
-        <p>Subtotal: {subTotal.toFixed(2)}€</p>
+        <p>Subtotal: {Number(subTotal).toFixed(2)}€</p>
 
         <p>
           {subTotal < 30 && subTotal !== 0
-            ? `Shipping Costs: ${shippingCosts}€`
+            ? 'Shipping Costs: 4.95€'
             : 'Shipping Costs: 0.00€'}
         </p>
         <hr css={horizontalRulerStyle} />
 
-        <p css={totalPriceStyle}>Total: {props.totalPrice.toFixed(2)}€</p>
+        <p css={totalPriceStyle}>
+          Total: {Number(props.totalPrice).toFixed(2)}€
+        </p>
         <Link href="/checkout">
           <a>
             <BigButton
@@ -164,7 +166,10 @@ export default function Cart(props) {
 
 export async function getServerSideProps() {
   const products = await getProducts();
+
   return {
-    props: { productData: products }, // will be passed to the page component as props
+    props: {
+      products: products,
+    },
   };
 }

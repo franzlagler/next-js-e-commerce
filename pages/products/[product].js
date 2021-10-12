@@ -1,15 +1,17 @@
 import { css } from '@emotion/react';
 import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
 import AmountInput from '../../components/AmountInput';
 import BigButton from '../../components/BigButton';
-import { getProducts } from '../../util/productData';
+import { getProducts } from '../../util/database';
 
 const singleProductContainerStyle = css`
   display: grid;
   justify-content: center;
   grid-gap: 44px;
   padding: 40px 150px;
+  margin-top: 50px;
   border: 3px solid #212529;
   border-radius: 15px;
   font-size: 22px;
@@ -41,6 +43,13 @@ export default function product(props) {
       <Head>
         <title>{props.singleProduct.name}</title>
       </Head>
+      <Link href="/products">
+        <a>
+          <BigButton width="300px">
+            <span aria-label="arrow">←</span> View all products
+          </BigButton>
+        </a>
+      </Link>
       <div css={singleProductContainerStyle}>
         <h2 css={singleProductHeading}>{props.singleProduct.name}</h2>
         <Image
