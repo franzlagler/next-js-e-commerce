@@ -100,7 +100,7 @@ export default function Cart(props) {
           selectedProducts.map((el, index) => {
             return (
               <div
-                key={`product-${el.id}`}
+                key={`product-${el.productsId}`}
                 css={orderSingleProductContainerStyle}
               >
                 <div css={orderSingleProductSection1Style}>
@@ -114,21 +114,21 @@ export default function Cart(props) {
                   <AmountInput
                     value={el.amount}
                     handleIncrementClick={(e) =>
-                      props.handleUpdateAmountCartClick(e, el.id)
+                      props.handleUpdateAmountCartClick(e, el.productsId)
                     }
                     handleDecrementClick={(e) =>
-                      props.handleUpdateAmountCartClick(e, el.id)
+                      props.handleUpdateAmountCartClick(e, el.productsId)
                     }
                   />
                   <DeleteButton
-                    onClick={() => props.handleDeleteProduct(el.id)}
+                    onClick={() => props.handleDeleteProduct(el.productsId)}
                     data-cy={`delete-button-${index}`}
                   >
                     Delete
                   </DeleteButton>
                 </div>
                 <Image
-                  src={`/images/img${el.id}.svg`}
+                  src={`/images/img${el.productsId}.svg`}
                   alt="product"
                   width={90}
                   height={90}

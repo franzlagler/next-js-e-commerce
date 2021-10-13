@@ -1,3 +1,4 @@
+import camelcaseKeys from 'camelcase-keys';
 import dotenvSafe from 'dotenv-safe';
 import postgres from 'postgres';
 
@@ -25,19 +26,23 @@ function connectOneTimeToDatabase() {
 const sql = connectOneTimeToDatabase();
 
 export async function getProducts() {
-  return await sql`
+  const products = await sql`
   SELECT * FROM products;
   `;
+
+  return products.map((product) => camelcaseKeys(product));
 }
 
 export async function getReviews() {
-  return await sql`
+  const previews = await sql`
   SELECT * FROM reviews;
   `;
+  return previews.map((preview) => camelcaseKeys(preview));
 }
 
 export async function getOrders() {
-  return await sql`
+  const orders = await sql`
   SELECT * FROM orders;
   `;
+  return orders.map((order) => camelcaseKeys(order));
 }

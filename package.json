@@ -21,6 +21,7 @@
     "@emotion/styled": "^11.3.0",
     "@stripe/react-stripe-js": "^1.6.0",
     "@stripe/stripe-js": "^1.19.1",
+    "camelcase-keys": "^7.0.1",
     "cypress-iframe": "^1.0.1",
     "dotenv-cli": "^4.0.0",
     "dotenv-safe": "^8.2.0",

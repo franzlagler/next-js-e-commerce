@@ -53,7 +53,7 @@ export default function product(props) {
       <div css={singleProductContainerStyle}>
         <h2 css={singleProductHeading}>{props.singleProduct.name}</h2>
         <Image
-          src={`/images/img${props.singleProduct.id}.svg`}
+          src={`/images/img${props.singleProduct.productsId}.svg`}
           alt="product"
           width="150"
           height="150"
@@ -81,7 +81,7 @@ export default function product(props) {
         <BigButton
           onClick={() =>
             props.handleAddClick(
-              props.singleProduct.id,
+              props.singleProduct.productsId,
               props.amount[props.index],
             )
           }

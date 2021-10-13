@@ -5,7 +5,7 @@ export function fetchProductData(cart = [], products) {
 
   for (let i = 0; i < cart.length; i++) {
     for (let j = 0; j < allProducts.length; j++) {
-      if (cart[i].id === allProducts[j].id) {
+      if (cart[i].id === allProducts[j].productsId) {
         selectedProducts.push(allProducts[j]);
         selectedProducts[i].amount = cart[i].amount;
       }
