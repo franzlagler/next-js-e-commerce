@@ -44,7 +44,7 @@ export default function Success(props) {
 }
 
 export async function getServerSideProps() {
-  const products = await getOrders();
+  const orders = await getOrders();
 
   return {
     props: {
