@@ -13,7 +13,7 @@ const deleteProduct = (index) => {
 
 describe('Cart', () => {
   it('should be able to add items to cart and delete them', () => {
-    cy.visit('/');
+    cy.visit('http://localhost:3000/');
     /*  addProduct();
     addProduct();
 
