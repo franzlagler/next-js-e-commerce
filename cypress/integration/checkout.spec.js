@@ -1,6 +1,6 @@
 describe('Checkout', () => {
   it('should be able to go to checkout, fill in payment details, complete the payment process and be forwarded to a thank-you-page', () => {
-    cy.visit('https://localhost:3000/products');
+    cy.visit('http://localhost:3000/products');
     const randomProduct = Math.floor(Math.random() * 15);
     cy.get(`[data-cy="amount-increase-${randomProduct}"]`).click();
     cy.get(`[data-cy="add-button-${randomProduct}"]`).click();

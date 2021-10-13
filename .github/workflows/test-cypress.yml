@@ -28,6 +28,8 @@ jobs:
         # Environment variables for Ley and Next.js
         # to be able to connect to the database
         env:
+          CYPRESS_host: api.dev.local
+          CYPRESS_port: 3000
           PGHOST: localhost
           PGDATABASE: ${{ secrets.PGDATABASE }}
           PGUSERNAME: ${{ secrets.PGUSERNAME }}
