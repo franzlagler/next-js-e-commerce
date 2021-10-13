@@ -27,12 +27,11 @@ jobs:
         # Environment variables for Ley and Next.js
         # to be able to connect to the database
         env:
-          API_BASE_URL: http://localhost:3000/api
           PGHOST: localhost
           PGDATABASE: ${{ secrets.PGDATABASE }}
           PGUSERNAME: ${{ secrets.PGUSERNAME }}
           PGPASSWORD: ${{ secrets.PGPASSWORD }}
-
+          BASE_URL: ${{ secrets.BASE_URL }}
       # Store any Cypress screenshots on test failure
       - uses: actions/upload-artifact@v2
         if: failure()
