@@ -3,7 +3,7 @@ import postgres from 'postgres';
 
 dotenvSafe.config();
 
-/* function connectOneTimeToDatabase() {
+function connectOneTimeToDatabase() {
   let sql;
 
   if (process.env.NODE_ENV === 'production') {
@@ -19,10 +19,10 @@ dotenvSafe.config();
   }
 
   return sql;
-} */
+}
 
 // Connect to PostgreSQL
-const sql = postgres();
+const sql = connectOneTimeToDatabase();
 
 export async function getProducts() {
   return await sql`
@@ -33,5 +33,11 @@ export async function getProducts() {
 export async function getReviews() {
   return await sql`
   SELECT * FROM reviews;
+  `;
+}
+
+export async function getOrders() {
+  return await sql`
+  SELECT * FROM orders;
   `;
 }
