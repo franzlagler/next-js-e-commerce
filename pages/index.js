@@ -5,7 +5,6 @@ import Link from 'next/link';
 import MassiveButton from '../components/MassiveButton';
 import uncleSam from '../public/images/uncle-sam.svg';
 import { getReviews } from '../util/database';
-import { getPrice } from '../util/orderPrice';
 
 const heroContainerStyle = css`
   display: flex;
