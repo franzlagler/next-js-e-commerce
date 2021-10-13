@@ -31,8 +31,8 @@ jobs:
           PGDATABASE: ${{ secrets.PGDATABASE }}
           PGUSERNAME: ${{ secrets.PGUSERNAME }}
           PGPASSWORD: ${{ secrets.PGPASSWORD }}
-          NEXT_PUBLIC_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_PUBLISHABLE_KEY }}
-          SECRET_KEY: ${{secrets.SECRET_KEY }}
+          NEXT_PUBLIC_PUBLISHABLE_KEY: ${{secrets.NEXT_PUBLIC_PUBLISHABLE_KEY}}
+          SECRET_KEY: ${{secrets.SECRET_KEY}}
 
       # Store any Cypress screenshots on test failure
       - uses: actions/upload-artifact@v2
