@@ -46,3 +46,10 @@ export async function getOrders() {
   `;
   return orders.map((order) => camelcaseKeys(order));
 }
+
+export async function addOrder(date, address, totalPrice) {
+  await sql`
+  INSERT INTO orders (date, address, total_price)
+  VALUES (${date}, ${address}, ${totalPrice})
+  `;
+}

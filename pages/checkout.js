@@ -51,6 +51,7 @@ const formContainer = css`
 
 export default function Checkout(props) {
   const [clientSecret, setClientSecret] = useState('');
+  const [shippingDetails, setShippingDetails] = useState({});
   const [isProcessing, setIsProcessing] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
   const stripe = useStripe();
@@ -59,7 +60,7 @@ export default function Checkout(props) {
 
   useEffect(() => {
     window
-      .fetch('/api/order_price', {
+      .fetch('/api/set_cart', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -92,9 +93,26 @@ export default function Checkout(props) {
     }
   }, [props.totalPrice]);
 
+  const handleInputChanges = ({ currentTarget }) => {
+    const { id, value } = currentTarget;
+
+    setShippingDetails({ ...shippingDetails, [id]: value });
+  };
+
+  const getOrderDetails = async () => {
+    const response = await fetch('/api/save_order', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ shippingDetails, totalPrice: props.totalPrice }),
+    });
+    console.log(response);
+  };
+
+  // Submitting Order/Payment
   const handleCheckoutClick = async (e) => {
     e.preventDefault();
-
     setIsProcessing(true);
 
     const payload = await stripe.confirmCardPayment(clientSecret, {
@@ -104,6 +122,7 @@ export default function Checkout(props) {
     });
 
     if (payload.paymentIntent.status === 'succeeded') {
+      getOrderDetails();
       setIsProcessing(false);
       setIsFinished(true);
       setClientSecret('');
@@ -124,23 +143,41 @@ export default function Checkout(props) {
       <div css={checkoutContainer}>
         <h1 css={mainHeading}>Checkout</h1>
         <form onSubmit={handleCheckoutClick} css={formContainer}>
-          <InputField id="name" fieldName="Name" placeholder="Jane Doe" />
           <InputField
+            handleInputChange={handleInputChanges}
+            id="name"
+            fieldName="Name"
+            placeholder="Jane Doe"
+            value={shippingDetails['name']}
+          />
+          <InputField
+            handleInputChange={handleInputChanges}
             id="street"
             fieldName="Street"
             placeholder="Abby Spark Tree"
+            value={shippingDetails['street']}
           />
-          <InputField id="zip" fieldName="ZIP Code" placeholder="12345" />
           <InputField
+            handleInputChange={handleInputChanges}
+            id="zip"
+            fieldName="ZIP Code"
+            placeholder="12345"
+            value={shippingDetails['zip']}
+          />
+          <InputField
+            handleInputChange={handleInputChanges}
             id="city"
             fieldName="City"
             placeholder="Washington D.C."
+            value={shippingDetails['city']}
           />
 
           <InputField
+            handleInputChange={handleInputChanges}
             id="country"
             fieldName="Country"
             placeholder="United States"
+            value={shippingDetails['country']}
           />
           <label htmlFor="card" css={cardLabel}>
             Card Details

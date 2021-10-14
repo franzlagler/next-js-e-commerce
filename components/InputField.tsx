@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import React from 'react';
 
 const inputContainer = css`
   margin-bottom: 20px;
@@ -29,13 +30,19 @@ export default function InputField(props: {
   id: string;
   fieldName: string;
   placeholder: string;
+  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }) {
   return (
     <div css={inputContainer}>
       <label htmlFor={props.id} css={labelStyle}>
         {props.fieldName}
       </label>
-      <input id={props.id} placeholder={props.placeholder} css={inputStyle} />
+      <input
+        id={props.id}
+        placeholder={props.placeholder}
+        css={inputStyle}
+        onChange={props.handleInputChange}
+      />
     </div>
   );
 }

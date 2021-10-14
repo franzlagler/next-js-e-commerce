@@ -18,15 +18,11 @@ const mainContainerStyle = css`
 
 interface LayoutProps {
   children: React.ReactNode;
+  cart: { id: number; amount: number }[];
+  dataCy: string;
 }
 
-function Layout(
-  { children }: LayoutProps,
-  props: {
-    cart: {}[];
-    dataCy: string;
-  },
-) {
+function Layout({ children, ...props }: LayoutProps) {
   return (
     <div css={pageContainerStyle}>
       <Navbar cart={props.cart} dataCy={props.dataCy} />

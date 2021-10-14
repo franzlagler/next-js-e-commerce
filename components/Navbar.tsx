@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import cart from '../public/images/cart.svg';
+import cartImg from '../public/images/cart.svg';
 
 const navContainerStyle = css`
   position: fixed;
@@ -63,7 +63,10 @@ const selectedProductStyle = css`
   font-weight: bolder;
 `;
 
-function Navbar(props: { cart: {}[]; dataCy: string }) {
+function Navbar(props: {
+  cart: { id: number; amount: number }[];
+  dataCy: string;
+}) {
   return (
     <nav css={navContainerStyle}>
       <ul css={navBarStyle}>
@@ -88,7 +91,12 @@ function Navbar(props: { cart: {}[]; dataCy: string }) {
           <Link href="/cart">
             <a css={navbarLinkStyle} data-cy={props.dataCy}>
               <div css={cartContainerStyle}>
-                <Image css={cartImageStyle} src={cart} width="40" height="40" />
+                <Image
+                  css={cartImageStyle}
+                  src={cartImg}
+                  width="40"
+                  height="40"
+                />
                 <p css={selectedProductStyle}>{props.cart.length}</p>
               </div>
             </a>

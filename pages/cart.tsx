@@ -86,7 +86,7 @@ export default function Cart(props: CartProps) {
 
   useEffect(() => {
     window
-      .fetch('/api/order_price', {
+      .fetch('/api/set_cart', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
