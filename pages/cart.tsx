@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import AmountInput from '../components/AmountInput';
 import BigButton from '../components/BigButton';
 import DeleteButton from '../components/DeleteButton';
@@ -65,7 +65,22 @@ const horizontalRulerStyle = css`
   border-radius: 2px;
 `;
 
-export default function Cart(props) {
+type CartProps = {
+  cart: {}[];
+  products: {
+    productsId: number;
+    name: string;
+    price: number;
+  }[];
+  totalPrice: number;
+  setTotalPrice: Dispatch<SetStateAction<number>>;
+  handleUpdateAmountCartClick: (
+    event: React.TouchEventHandler<HTMLButtonElement>,
+    productsId: number,
+  ) => void;
+  handleDeleteProduct: (productsId: number) => void;
+};
+export default function Cart(props: CartProps) {
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [subTotal, setSubTotal] = useState(0);
 
@@ -97,45 +112,57 @@ export default function Cart(props) {
           <p>Your shopping cart is currently empty.</p>
         )}
         {selectedProducts.length !== 0 &&
-          selectedProducts.map((el, index) => {
-            return (
-              <div
-                key={`product-${el.productsId}`}
-                css={orderSingleProductContainerStyle}
-              >
-                <div css={orderSingleProductSection1Style}>
-                  <h2 css={productHeadingStyle}>{el.name}</h2>
+          selectedProducts.map(
+            (
+              el: {
+                productsId: number;
+                name: string;
+                price: number;
+                amount: number;
+              },
+              index: number,
+            ) => {
+              return (
+                <div
+                  key={`product-${el.productsId}`}
+                  css={orderSingleProductContainerStyle}
+                >
+                  <div css={orderSingleProductSection1Style}>
+                    <h2 css={productHeadingStyle}>{el.name}</h2>
 
-                  <p>
-                    <span css={productPriceStyle}>{el.price.toFixed(2)}€</span>{' '}
-                    per unit
-                  </p>
+                    <p>
+                      <span css={productPriceStyle}>
+                        {el.price.toFixed(2)}€
+                      </span>{' '}
+                      per unit
+                    </p>
 
-                  <AmountInput
-                    value={el.amount}
-                    handleIncrementClick={(e) =>
-                      props.handleUpdateAmountCartClick(e, el.productsId)
-                    }
-                    handleDecrementClick={(e) =>
-                      props.handleUpdateAmountCartClick(e, el.productsId)
-                    }
+                    <AmountInput
+                      value={el.amount}
+                      handleIncrementClick={(
+                        e: React.TouchEventHandler<HTMLButtonElement>,
+                      ) => props.handleUpdateAmountCartClick(e, el.productsId)}
+                      handleDecrementClick={(
+                        e: React.TouchEventHandler<HTMLButtonElement>,
+                      ) => props.handleUpdateAmountCartClick(e, el.productsId)}
+                    />
+                    <DeleteButton
+                      onClick={() => props.handleDeleteProduct(el.productsId)}
+                      data-cy={`delete-button-${index}`}
+                    >
+                      Delete
+                    </DeleteButton>
+                  </div>
+                  <Image
+                    src={`/images/img${el.productsId}.svg`}
+                    alt="product"
+                    width={90}
+                    height={90}
                   />
-                  <DeleteButton
-                    onClick={() => props.handleDeleteProduct(el.productsId)}
-                    data-cy={`delete-button-${index}`}
-                  >
-                    Delete
-                  </DeleteButton>
                 </div>
-                <Image
-                  src={`/images/img${el.productsId}.svg`}
-                  alt="product"
-                  width={90}
-                  height={90}
-                />
-              </div>
-            );
-          })}
+              );
+            },
+          )}
 
         <p>Subtotal: {Number(subTotal).toFixed(2)}€</p>
 

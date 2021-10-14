@@ -25,7 +25,11 @@ const inputStyle = css`
   }
 `;
 
-export default function InputField(props) {
+export default function InputField(props: {
+  id: string;
+  fieldName: string;
+  placeholder: string;
+}) {
   return (
     <div css={inputContainer}>
       <label htmlFor={props.id} css={labelStyle}>

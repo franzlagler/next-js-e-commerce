@@ -16,7 +16,17 @@ const mainContainerStyle = css`
   padding: 20px 0 500px 0;
 `;
 
-function Layout({ children, ...props }) {
+interface LayoutProps {
+  children: React.ReactNode;
+}
+
+function Layout(
+  { children }: LayoutProps,
+  props: {
+    cart: {}[];
+    dataCy: string;
+  },
+) {
   return (
     <div css={pageContainerStyle}>
       <Navbar cart={props.cart} dataCy={props.dataCy} />

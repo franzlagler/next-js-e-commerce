@@ -63,7 +63,7 @@ const selectedProductStyle = css`
   font-weight: bolder;
 `;
 
-function Navbar(props) {
+function Navbar(props: { cart: {}[]; dataCy: string }) {
   return (
     <nav css={navContainerStyle}>
       <ul css={navBarStyle}>

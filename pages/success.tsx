@@ -3,7 +3,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import MassiveButton from '../components/MassiveButton';
 import uncleSam from '../public/images/uncle-sam.svg';
-import { getOrders } from '../util/database';
 
 const heroContainerStyle = css`
   display: flex;
@@ -25,8 +24,7 @@ const heroHeadingStyle = css`
   color: #212529;
 `;
 
-export default function Success(props) {
-  console.log(props.orders);
+export default function Success() {
   return (
     <div css={heroContainerStyle}>
       <Image src={uncleSam} alt="Uncle Sam" width="350" height="350" />
@@ -41,14 +39,4 @@ export default function Success(props) {
       </div>
     </div>
   );
-}
-
-export async function getServerSideProps() {
-  const orders = await getOrders();
-
-  return {
-    props: {
-      orders: orders,
-    },
-  };
 }

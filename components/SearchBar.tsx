@@ -31,7 +31,10 @@ const searchBarStyle = css`
   }
 `;
 
-export default function SearchBar(props) {
+export default function SearchBar(props: {
+  handleSearchInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  searchInput: string;
+}) {
   return (
     <div css={searchBarContainerStyle}>
       <h2 css={headingStyle}>Product List</h2>
