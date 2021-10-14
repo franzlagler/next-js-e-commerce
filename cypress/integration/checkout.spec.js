@@ -15,8 +15,8 @@ describe('Checkout', () => {
     cy.iframe('[title="Secure card payment input frame"]')
       .find('[name="cvc"]')
       .type('123');
-    cy.wait(3000);
     cy.get('[data-cy="pay-button"]').click();
+    cy.wait(3000);
     cy.get('[data-cy="home-button"]').click();
   });
 });
