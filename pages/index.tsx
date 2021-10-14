@@ -65,7 +65,7 @@ const singleReviewHeading = css`
 `;
 
 export default function Home(props: {
-  reviews: { reviewsId: number; author: string; text: string }[];
+  reviews: { reviewId: number; author: string; text: string }[];
 }) {
   return (
     <>
@@ -101,10 +101,10 @@ export default function Home(props: {
       <div css={reviewsContainerStyle}>
         {props.reviews.map((el) => {
           return (
-            <div css={singleReviewContainer} key={`reviews-${el.reviewsId}`}>
+            <div css={singleReviewContainer} key={`reviews-${el.reviewId}`}>
               <h3 css={singleReviewHeading}>{el.author}</h3>
               <Image
-                src={`/images/review${el.reviewsId}.svg`}
+                src={`/images/review${el.reviewId}.svg`}
                 width="120"
                 height="120"
                 alt="review author"

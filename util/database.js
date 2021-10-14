@@ -52,4 +52,9 @@ export async function addOrder(date, address, totalPrice) {
   INSERT INTO orders (date, address, total_price)
   VALUES (${date}, ${address}, ${totalPrice})
   `;
+
+  const orderId = await sql`
+  SELECT order_id from orders where date=${date};
+  `;
+  return camelcaseKeys(orderId[0]);
 }

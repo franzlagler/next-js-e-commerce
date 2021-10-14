@@ -78,7 +78,7 @@ type CartProps = {
     event: React.TouchEventHandler<HTMLButtonElement>,
     productsId: number,
   ) => void;
-  handleDeleteProduct: (productsId: number) => void;
+  handleDeleteProduct: (productId: number) => void;
 };
 export default function Cart(props: CartProps) {
   const [selectedProducts, setSelectedProducts] = useState([]);
@@ -115,7 +115,7 @@ export default function Cart(props: CartProps) {
           selectedProducts.map(
             (
               el: {
-                productsId: number;
+                productId: number;
                 name: string;
                 price: number;
                 amount: number;
@@ -124,7 +124,7 @@ export default function Cart(props: CartProps) {
             ) => {
               return (
                 <div
-                  key={`product-${el.productsId}`}
+                  key={`product-${el.productId}`}
                   css={orderSingleProductContainerStyle}
                 >
                   <div css={orderSingleProductSection1Style}>
@@ -141,20 +141,20 @@ export default function Cart(props: CartProps) {
                       value={el.amount}
                       handleIncrementClick={(
                         e: React.TouchEventHandler<HTMLButtonElement>,
-                      ) => props.handleUpdateAmountCartClick(e, el.productsId)}
+                      ) => props.handleUpdateAmountCartClick(e, el.productId)}
                       handleDecrementClick={(
                         e: React.TouchEventHandler<HTMLButtonElement>,
-                      ) => props.handleUpdateAmountCartClick(e, el.productsId)}
+                      ) => props.handleUpdateAmountCartClick(e, el.productId)}
                     />
                     <DeleteButton
-                      onClick={() => props.handleDeleteProduct(el.productsId)}
+                      onClick={() => props.handleDeleteProduct(el.productId)}
                       data-cy={`delete-button-${index}`}
                     >
                       Delete
                     </DeleteButton>
                   </div>
                   <Image
-                    src={`/images/img${el.productsId}.svg`}
+                    src={`/images/img${el.productId}.svg`}
                     alt="product"
                     width={90}
                     height={90}

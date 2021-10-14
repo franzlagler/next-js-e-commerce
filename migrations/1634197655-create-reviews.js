@@ -1,7 +1,7 @@
 exports.up = async function up(sql) {
   await sql`
 	CREATE Table reviews(
-		reviews_id SERIAL,
+		review_id SERIAL,
 		author varchar(50) not null,
 		text VARCHAR(200) not null
 	);

@@ -84,11 +84,11 @@ export default function Checkout(props) {
       });
 
       const fetchedClientSecret = await paymentIntents.json();
-      console.log(fetchedClientSecret);
 
       setClientSecret(fetchedClientSecret.clientSecret);
     };
     if (props.totalPrice !== 0) {
+      console.log(props.totalPrice);
       fetchClientSecret();
     }
   }, [props.totalPrice]);
@@ -107,7 +107,8 @@ export default function Checkout(props) {
       },
       body: JSON.stringify({ shippingDetails, totalPrice: props.totalPrice }),
     });
-    console.log(response);
+    const orderId = await response.text();
+    console.log(orderId);
   };
 
   // Submitting Order/Payment
@@ -125,7 +126,6 @@ export default function Checkout(props) {
       getOrderDetails();
       setIsProcessing(false);
       setIsFinished(true);
-      setClientSecret('');
       setTimeout(() => router.push('/success'), 1000);
       setTimeout(() => setIsFinished(false), 2000);
       props.deleteAllItems();

@@ -41,7 +41,7 @@ const spanTextStyle = css`
 
 type ProductProps = {
   singleProduct: {
-    productsId: number;
+    productId: number;
     name: string;
     price: number;
   };
@@ -68,7 +68,7 @@ export default function product(props: ProductProps) {
       <div css={singleProductContainerStyle}>
         <h2 css={singleProductHeading}>{props.singleProduct.name}</h2>
         <Image
-          src={`/images/img${props.singleProduct.productsId}.svg`}
+          src={`/images/img${props.singleProduct.productId}.svg`}
           alt="product"
           width="150"
           height="150"
@@ -96,7 +96,7 @@ export default function product(props: ProductProps) {
         <BigButton
           onClick={() =>
             props.handleAddClick(
-              props.singleProduct.productsId,
+              props.singleProduct.productId,
               props.amount[props.index],
             )
           }

@@ -11,7 +11,8 @@ export default async function handler(req, res) {
       ${city}
       ${country}`;
       const date = new Date().toLocaleDateString();
-      addOrder(date, address, totalPrice);
+      const orderId = await addOrder(date, address, totalPrice);
+      res.status(200).send({ orderId: orderId });
     } catch (err) {
       res.status(500).json({ statusCode: 500, message: err.message });
     }

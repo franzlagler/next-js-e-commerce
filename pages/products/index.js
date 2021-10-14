@@ -107,7 +107,7 @@ export default function Products(props) {
       <div css={productsContainerStyle}>
         {props.productData.filter(filterMethod).map((product, index) => {
           return (
-            <div key={`product-${product.productsId}`}>
+            <div key={`product-${product.productId}`}>
               <div css={singleProductContainerStyle}>
                 <Link href={`products/${product.keyword}`}>
                   <a css={productHyperlinkStyle}>
@@ -115,7 +115,7 @@ export default function Products(props) {
                   </a>
                 </Link>
                 <Image
-                  src={`/images/img${product.productsId}.svg`}
+                  src={`/images/img${product.productId}.svg`}
                   alt="product"
                   width="80"
                   height="80"
@@ -131,10 +131,7 @@ export default function Products(props) {
                 <BigButton
                   name="Add to Cart"
                   onClick={() =>
-                    props.handleAddClick(
-                      product.productsId,
-                      props.amount[index],
-                    )
+                    props.handleAddClick(product.productId, props.amount[index])
                   }
                   index={index}
                   data-cy={`add-button-${index}`}

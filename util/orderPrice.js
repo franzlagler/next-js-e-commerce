@@ -5,7 +5,7 @@ export function fetchProductData(cart = [], products) {
 
   for (let i = 0; i < cart.length; i++) {
     for (let j = 0; j < allProducts.length; j++) {
-      if (cart[i].id === allProducts[j].productsId) {
+      if (cart[i].id === allProducts[j].productId) {
         selectedProducts.push(allProducts[j]);
         selectedProducts[i].amount = cart[i].amount;
       }
@@ -31,7 +31,7 @@ export function getPrice(cart, products) {
     total = subtotal;
   }
   return {
-    subtotal: subtotal,
-    total: total,
+    subtotal: Math.round(subtotal * 100) / 100,
+    total: Math.round(total * 100) / 100,
   };
 }

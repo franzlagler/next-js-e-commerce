@@ -1,8 +1,8 @@
 exports.up = async function up(sql) {
   await sql`
 	CREATE Table ordered_products(
-		orders_id integer REFERENCES orders(orders_id) ON DELETE CASCADE,
-		products_id integer REFERENCES products(products_id) ON DELETE CASCADE,
+		order_id integer REFERENCES orders(order_id) ON DELETE CASCADE,
+		product_id integer REFERENCES products(product_id) ON DELETE CASCADE,
 		amount integer
 	);
 	`;
