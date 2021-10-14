@@ -73,28 +73,29 @@ export default function Checkout(props) {
   }, [props]);
 
   useEffect(() => {
+    const fetchClientSecret = async () => {
+      const paymentIntents = await fetch('/api/payment_intents', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ amount: props.totalPrice * 100 }),
+      });
+
+      const fetchedClientSecret = await paymentIntents.json();
+      console.log(fetchedClientSecret);
+
+      setClientSecret(fetchedClientSecret.clientSecret);
+    };
     if (props.totalPrice !== 0) {
-      window
-        .fetch('/api/payment_intents', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ amount: props.totalPrice * 100 }),
-        })
-        .then((res) => {
-          return res.json();
-        })
-        .then((data) => {
-          setClientSecret(data.clientSecret);
-          console.log(data);
-        });
+      fetchClientSecret();
     }
   }, [props.totalPrice]);
 
   const handleCheckoutClick = async (e) => {
-    setIsProcessing(true);
     e.preventDefault();
+
+    setIsProcessing(true);
 
     const payload = await stripe.confirmCardPayment(clientSecret, {
       payment_method: {
