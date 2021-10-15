@@ -19,10 +19,7 @@ export function getPrice(cart, products) {
   const selectedProducts = fetchProductData(cart, products);
   console.log(selectedProducts);
   const individualTotals = selectedProducts.map((el) => el.price * el.amount);
-  const subtotal = individualTotals.reduce(
-    (acc, nextVal) => (acc += nextVal),
-    0,
-  );
+  let subtotal = individualTotals.reduce((acc, nextVal) => (acc += nextVal), 0);
   let total;
 
   if (subtotal < 30 && subtotal !== 0) {
@@ -30,8 +27,11 @@ export function getPrice(cart, products) {
   } else {
     total = subtotal;
   }
+
+  total = Number(total.toFixed(2));
+  subtotal = Number(total.toFixed(2));
   return {
-    subtotal: Number(subtotal.toFixed(2)),
-    total: Number(total.toFixed(2)),
+    subtotal: subtotal,
+    total: total,
   };
 }
