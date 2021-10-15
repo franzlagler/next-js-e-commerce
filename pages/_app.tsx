@@ -1,6 +1,7 @@
 import { css, Global } from '@emotion/react';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
+import { AppProps } from 'next/app';
 import { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import {
@@ -32,10 +33,14 @@ const globalStyle = css`
 
 const stripePromise = loadStripe(
   String(process.env.NEXT_PUBLIC_PUBLISHABLE_KEY),
+  {
+    apiVersion: '2020-08-27',
+  },
 );
 
-export default function MyApp({ Component, pageProps }) {
+export default function MyApp({ Component, pageProps }: AppProps) {
   const [cart, setCart] = useState([]);
+
   const [amount, setAmount] = useState(() => {
     const valueArray = [];
     for (let i = 0; i < 15; i++) {
@@ -45,7 +50,7 @@ export default function MyApp({ Component, pageProps }) {
   });
   const [totalPrice, setTotalPrice] = useState(0);
 
-  const handleIncrementClick = (productIndex) => {
+  const handleIncrementClick = (productIndex: number) => {
     const updatedAmount = incrementAmount(productIndex, amount);
     setAmount(
       amount.map((el, index) => {
@@ -58,7 +63,7 @@ export default function MyApp({ Component, pageProps }) {
     );
   };
 
-  const handleDecrementClick = (productIndex) => {
+  const handleDecrementClick = (productIndex: number) => {
     const updatedAmount = decrementAmount(productIndex, amount);
 
     setAmount(
@@ -73,7 +78,7 @@ export default function MyApp({ Component, pageProps }) {
   };
 
   // Add item to cookie 'order'
-  const handleAddClick = (id, productAmount) => {
+  const handleAddClick = (id: string, productAmount: number) => {
     // Check if item with that id already exists
     const idExists = checkItemExistence(id, cart);
     let newCart;
@@ -88,14 +93,17 @@ export default function MyApp({ Component, pageProps }) {
     setAmount(amount.map(() => 1));
   };
   // Delete item from cookie 'cart'
-  const handleDeleteProduct = (id) => {
-    const filteredArray = cart.filter((el) => el.id !== id);
+  const handleDeleteProduct = (id: string) => {
+    const filteredArray = cart.filter((el: { id: string }) => el.id !== id);
 
     setCart(updateCookies('cart', filteredArray));
   };
 
   // Update Product Amount on Cart Page
-  const handleUpdateAmountCartClick = (e, id) => {
+  const handleUpdateAmountCartClick = (
+    e: React.TouchEvent<HTMLButtonElement>,
+    id: string,
+  ) => {
     const buttonName = e.currentTarget.name;
     const updatedArray = updateAmountInCart(buttonName, id, cart);
 

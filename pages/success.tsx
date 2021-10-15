@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import MassiveButton from '../components/MassiveButton';
+import ButtonLink from '../components/MassiveButton';
 import uncleSam from '../public/images/uncle-sam.svg';
 
 const heroContainerStyle = css`
@@ -31,10 +31,8 @@ export default function Success() {
 
       <div>
         <h1 css={heroHeadingStyle}>Thank you for your purchase.</h1>
-        <Link href="/">
-          <a>
-            <MassiveButton data-cy="home-button">Go To Home</MassiveButton>
-          </a>
+        <Link href="/" passHref>
+          <ButtonLink data-cy="home-button">Go To Home</ButtonLink>
         </Link>
       </div>
     </div>

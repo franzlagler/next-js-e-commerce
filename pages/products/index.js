@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import AmountInput from '../../components/AmountInput';
 import BigButton from '../../components/BigButton';
 import SearchBar from '../../components/SearchBar';
-import { getProducts } from '../../util/database';
+import { getAllProducts } from '../../util/database';
 
 const productsContainerStyle = css`
   display: flex;
@@ -148,7 +148,7 @@ export default function Products(props) {
 }
 
 export async function getServerSideProps() {
-  const products = await getProducts();
+  const products = await getAllProducts();
   return {
     props: { productData: products }, // will be passed to the page component as props
   };

@@ -31,7 +31,7 @@ export function getPrice(cart, products) {
     total = subtotal;
   }
   return {
-    subtotal: Math.round(subtotal * 100) / 100,
-    total: Math.round(total * 100) / 100,
+    subtotal: subtotal,
+    total: total,
   };
 }

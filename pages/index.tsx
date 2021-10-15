@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import MassiveButton from '../components/MassiveButton';
+import { ButtonLink } from '../components/ButtonLink';
 import uncleSam from '../public/images/uncle-sam.svg';
 import { getReviews } from '../util/database';
 
@@ -80,10 +80,8 @@ export default function Home(props: {
             I want <span css={heroHeadingEmphasisStyle}>you</span> to buy candy,
             lots of candy.
           </h1>
-          <Link href="/products">
-            <a>
-              <MassiveButton>Go To Shop</MassiveButton>
-            </a>
+          <Link href="/products" passHref>
+            <ButtonLink>Go To Shop</ButtonLink>
           </Link>
         </div>
       </div>

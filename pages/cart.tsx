@@ -6,7 +6,7 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import AmountInput from '../components/AmountInput';
 import BigButton from '../components/BigButton';
 import DeleteButton from '../components/DeleteButton';
-import { getProducts } from '../util/database';
+import { getAllProducts } from '../util/database';
 
 const orderContainerStyle = css`
   display: grid;
@@ -81,7 +81,7 @@ type CartProps = {
   handleDeleteProduct: (productId: number) => void;
 };
 export default function Cart(props: CartProps) {
-  const [selectedProducts, setSelectedProducts] = useState([]);
+  const [selectedProductsData, setSelectedProductsDatat] = useState([]);
   const [subTotal, setSubTotal] = useState(0);
 
   useEffect(() => {
@@ -95,7 +95,7 @@ export default function Cart(props: CartProps) {
       })
       .then((res) => res.json())
       .then(({ chosenProducts, subtotal, total }) => {
-        setSelectedProducts(chosenProducts);
+        setSelectedProductsDatat(chosenProducts);
         setSubTotal(subtotal);
         props.setTotalPrice(total);
       });
@@ -108,11 +108,11 @@ export default function Cart(props: CartProps) {
       </Head>
       <div css={orderContainerStyle}>
         <h1 css={orderMainHeadingStyle}>Review Order</h1>
-        {selectedProducts.length === 0 && (
+        {selectedProductsData.length === 0 && (
           <p>Your shopping cart is currently empty.</p>
         )}
-        {selectedProducts.length !== 0 &&
-          selectedProducts.map(
+        {selectedProductsData.length !== 0 &&
+          selectedProductsData.map(
             (
               el: {
                 productId: number;
@@ -192,7 +192,7 @@ export default function Cart(props: CartProps) {
 }
 
 export async function getServerSideProps() {
-  const products = await getProducts();
+  const products = await getAllProducts();
 
   return {
     props: {

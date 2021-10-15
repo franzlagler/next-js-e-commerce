@@ -6,7 +6,7 @@ import Link from 'next/link';
 import React from 'react';
 import AmountInput from '../../components/AmountInput';
 import BigButton from '../../components/BigButton';
-import { getProducts } from '../../util/database';
+import { getAllProducts, getSingleProduct } from '../../util/database';
 
 const singleProductContainerStyle = css`
   display: grid;
@@ -109,16 +109,14 @@ export default function product(props: ProductProps) {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const products = await getProducts();
-  const input = context.query.product;
+  const allProducts = await getAllProducts();
 
-  const singleProduct = products.find(
-    (el: { keyword: string }) => el.keyword === input,
+  let singleProduct = await getSingleProduct(context.query.product);
+  singleProduct = singleProduct[0];
+
+  const index = allProducts.findIndex(
+    (el: { keyword: string }) => el.keyword === context.query.product,
   );
-  const index = products.findIndex(
-    (el: { keyword: string }) => el.keyword === input,
-  );
-  console.log(index);
 
   return {
     props: {

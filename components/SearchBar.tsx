@@ -1,5 +1,4 @@
 import { css } from '@emotion/react';
-import search from '../public/images/magnifying-glass.svg';
 
 const searchBarContainerStyle = css`
   display: flex;
@@ -20,7 +19,7 @@ const searchBarStyle = css`
   display: block;
   width: 300px;
   padding: 10px;
-  background: url(${search}) #fff 3% 50% / 20px no-repeat;
+  background: url(/images/magnifying-glass.svg) #fff 3% 50% / 20px no-repeat;
   border: 2px solid #212529;
   border-radius: 10px;
   font-size: 20px;

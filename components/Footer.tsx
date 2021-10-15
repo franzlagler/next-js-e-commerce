@@ -28,7 +28,7 @@ const socialMediaImageContainerStyle = css`
 
 function Footer() {
   return (
-    <div css={footerContainerStyle}>
+    <footer css={footerContainerStyle}>
       <div css={maxWidthContainer}>
         <p>For orders over 30€, we offer free shipping.</p>
         <div css={socialMediaImageContainerStyle}>
@@ -37,7 +37,7 @@ function Footer() {
           <Image src="/images/tik-tok.svg" width="30px" height="30px" />
         </div>
       </div>
-    </div>
+    </footer>
   );
 }
 

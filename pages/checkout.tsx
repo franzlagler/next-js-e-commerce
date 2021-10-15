@@ -1,11 +1,12 @@
 import { css } from '@emotion/react';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
+import { StripeElements } from '@stripe/stripe-js';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import BigButton from '../components/BigButton';
 import InputField from '../components/InputField';
-import { getProducts } from '../util/database';
+import { getAllProducts } from '../util/database';
 
 const checkoutContainer = css`
   padding: 40px 80px;
@@ -49,9 +50,24 @@ const formContainer = css`
   padding: 0 50px;
 `;
 
-export default function Checkout(props) {
+type CheckoutProps = {
+  cart: { id: number; amount: number }[];
+  products: {}[];
+  totalPrice: number;
+  setTotalPrice: (price: number) => void;
+  deleteAllItems: () => void;
+};
+
+export default function Checkout(props: CheckoutProps) {
   const [clientSecret, setClientSecret] = useState('');
-  const [shippingDetails, setShippingDetails] = useState({});
+  const [shippingDetails, setShippingDetails] = useState({
+    name: '',
+    email: '',
+    street: '',
+    zip: '',
+    city: '',
+    country: '',
+  });
   const [isProcessing, setIsProcessing] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
   const stripe = useStripe();
@@ -69,18 +85,22 @@ export default function Checkout(props) {
       })
       .then((res) => res.json())
       .then(({ total }) => {
-        props.setTotalPrice(total);
+        const totalInteger = Number(total.toFixed(2));
+        props.setTotalPrice(totalInteger);
       });
   }, [props]);
 
   useEffect(() => {
     const fetchClientSecret = async () => {
+      const amount = Number((props.totalPrice * 100).toFixed(2));
       const paymentIntents = await fetch('/api/payment_intents', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ amount: props.totalPrice * 100 }),
+        body: JSON.stringify({
+          amount: amount,
+        }),
       });
 
       const fetchedClientSecret = await paymentIntents.json();
@@ -88,42 +108,52 @@ export default function Checkout(props) {
       setClientSecret(fetchedClientSecret.clientSecret);
     };
     if (props.totalPrice !== 0) {
-      console.log(props.totalPrice);
       fetchClientSecret();
     }
   }, [props.totalPrice]);
 
-  const handleInputChanges = ({ currentTarget }) => {
-    const { id, value } = currentTarget;
+  const handleInputChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.currentTarget;
 
     setShippingDetails({ ...shippingDetails, [id]: value });
   };
 
-  const getOrderDetails = async () => {
-    const response = await fetch('/api/save_order', {
+  const saveOrderDetails = async () => {
+    const orderResponse = await fetch('/api/add_order_details', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ shippingDetails, totalPrice: props.totalPrice }),
     });
-    const orderId = await response.text();
-    console.log(orderId);
+    const orderIdObjectJSON = await orderResponse.text();
+    const orderIdObject = JSON.parse(orderIdObjectJSON);
+    const orderId: {} = orderIdObject.orderId.orderId;
+
+    const orderedProductsResponse = await fetch('/api/add_ordered_products', {
+      method: 'Post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ orderId, cart: props.cart }),
+    });
+    console.log(orderedProductsResponse);
   };
 
   // Submitting Order/Payment
-  const handleCheckoutClick = async (e) => {
+  const handleCheckoutClick = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsProcessing(true);
 
-    const payload = await stripe.confirmCardPayment(clientSecret, {
+    const cardElement = elements!.getElement(CardElement)!;
+
+    const payload = await stripe!.confirmCardPayment(clientSecret, {
       payment_method: {
-        card: elements.getElement(CardElement),
+        card: cardElement,
       },
     });
-
-    if (payload.paymentIntent.status === 'succeeded') {
-      getOrderDetails();
+    if (payload.paymentIntent!.status === 'succeeded') {
+      saveOrderDetails();
       setIsProcessing(false);
       setIsFinished(true);
       setTimeout(() => router.push('/success'), 1000);
@@ -202,11 +232,11 @@ export default function Checkout(props) {
   );
 }
 export async function getServerSideProps() {
-  const products = await getProducts();
+  const products = await getAllProducts();
 
   return {
     props: {
-      products: products,
+      products,
     },
   };
 }

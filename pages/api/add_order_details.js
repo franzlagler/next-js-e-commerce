@@ -1,4 +1,4 @@
-import { addOrder, getOrders } from '../../util/database';
+import { addOrderDetails, getOrders } from '../../util/database';
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
@@ -11,8 +11,8 @@ export default async function handler(req, res) {
       ${city}
       ${country}`;
       const date = new Date().toLocaleDateString();
-      const orderId = await addOrder(date, address, totalPrice);
-      res.status(200).send({ orderId: orderId });
+      const orderId = await addOrderDetails(date, address, totalPrice);
+      res.status(200).json({ orderId });
     } catch (err) {
       res.status(500).json({ statusCode: 500, message: err.message });
     }

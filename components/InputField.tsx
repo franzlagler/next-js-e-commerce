@@ -30,6 +30,7 @@ export default function InputField(props: {
   id: string;
   fieldName: string;
   placeholder: string;
+  value: string;
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }) {
   return (
@@ -42,6 +43,7 @@ export default function InputField(props: {
         placeholder={props.placeholder}
         css={inputStyle}
         onChange={props.handleInputChange}
+        value={props.value}
       />
     </div>
   );

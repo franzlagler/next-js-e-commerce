@@ -25,12 +25,19 @@ function connectOneTimeToDatabase() {
 // Connect to PostgreSQL
 const sql = connectOneTimeToDatabase();
 
-export async function getProducts() {
+export async function getAllProducts() {
   const products = await sql`
   SELECT * FROM products;
   `;
 
   return products.map((product) => camelcaseKeys(product));
+}
+
+export async function getSingleProduct(keyword) {
+  const product = await sql`
+  SELECT * FROM products where keyword=${keyword}
+  `;
+  return product.map((el) => camelcaseKeys(el));
 }
 
 export async function getReviews() {
@@ -47,14 +54,22 @@ export async function getOrders() {
   return orders.map((order) => camelcaseKeys(order));
 }
 
-export async function addOrder(date, address, totalPrice) {
-  await sql`
+export async function addOrderDetails(date, address, totalPrice) {
+  const orderId = await sql`
   INSERT INTO orders (date, address, total_price)
   VALUES (${date}, ${address}, ${totalPrice})
-  `;
-
-  const orderId = await sql`
-  SELECT order_id from orders where date=${date};
+  RETURNING order_id
   `;
   return camelcaseKeys(orderId[0]);
+}
+
+export async function addOrderedProducts(orderId, orderedProducts) {
+  console.log('database');
+  console.log(orderedProducts);
+  for (const object of orderedProducts) {
+    await sql`
+    INSERT INTO ordered_products (order_id, product_id, amount)
+    VALUES (${orderId}, ${object.id}, ${object.amount})
+    `;
+  }
 }
