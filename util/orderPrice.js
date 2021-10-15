@@ -31,7 +31,7 @@ export function getPrice(cart, products) {
     total = subtotal;
   }
   return {
-    subtotal: subtotal,
-    total: total,
+    subtotal: Number(subtotal.toFixed(2)),
+    total: Number(total.toFixed(2)),
   };
 }

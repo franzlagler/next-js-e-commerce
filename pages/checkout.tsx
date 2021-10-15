@@ -85,8 +85,7 @@ export default function Checkout(props: CheckoutProps) {
       })
       .then((res) => res.json())
       .then(({ total }) => {
-        const totalInteger = Number(total.toFixed(2));
-        props.setTotalPrice(totalInteger);
+        props.setTotalPrice(total);
       });
   }, [props]);
 
