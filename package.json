@@ -32,7 +32,6 @@
     "postgres": "2.0.0-beta.10",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-responsive-carousel": "^3.2.21",
     "stripe": "^8.178.0"
   },
   "devDependencies": {

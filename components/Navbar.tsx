@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import cartImg from '../public/images/cart.svg';
+import logo from '../public/images/logo.png';
 
 const navContainerStyle = css`
   position: fixed;
@@ -73,12 +74,7 @@ function Navbar(props: {
         <li css={navbarItemStyle}>
           <Link href="/">
             <a>
-              <Image
-                src="/images/logo.png"
-                width="160px"
-                height="50px"
-                priority={true}
-              />
+              <Image src={logo} width="160px" height="50px" priority={true} />
             </a>
           </Link>
         </li>
