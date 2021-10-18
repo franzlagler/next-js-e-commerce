@@ -74,7 +74,7 @@ function Navbar(props: {
         <li css={navbarItemStyle}>
           <Link href="/">
             <a>
-              <Image src={logo} width="160px" height="50px" priority={true} />
+              <Image src={logo} />
             </a>
           </Link>
         </li>
