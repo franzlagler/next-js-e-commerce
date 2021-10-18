@@ -52,3 +52,8 @@ The following instructions will allow you to deploy your application online usin
 - Under 'Deployment method', select your online GitHub repository that Heroku will connect with.
 - Under 'Manual Deploy', click on 'Deploy Branch'. The process should usually not take more than a couple of minutes.
 - After the process has finished, click on 'Open app' at the top of your application page. Now you can view the deployed version of the application
+
+
+![Landing Page Image](https://github.com/franzlagler/next-js-e-commerce/blob/main/public/images/screenshot1.png)
+![Landing Page Image](https://github.com/franzlagler/next-js-e-commerce/blob/main/public/images/screenshot2.png)
+![Landing Page Image](https://github.com/franzlagler/next-js-e-commerce/blob/main/public/images/screenshot3.png)
