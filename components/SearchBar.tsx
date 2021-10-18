@@ -28,6 +28,9 @@ const searchBarStyle = css`
     outline: 0;
     box-shadow: 0 0 4px 2px #72c2e9;
   }
+  &::-webkit-search-cancel-button {
+    appearance: none;
+  }
 `;
 
 export default function SearchBar(props: {
