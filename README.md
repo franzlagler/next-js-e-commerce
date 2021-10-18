@@ -53,6 +53,8 @@ The following instructions will allow you to deploy your application online usin
 - Under 'Manual Deploy', click on 'Deploy Branch'. The process should usually not take more than a couple of minutes.
 - After the process has finished, click on 'Open app' at the top of your application page. Now you can view the deployed version of the application
 
+## Screenshots
+
 ### Landing Page
 ![Landing Page Image](https://github.com/franzlagler/next-js-e-commerce/blob/main/public/images/screenshot1.png)
 ### Products Page
