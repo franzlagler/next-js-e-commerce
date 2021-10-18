@@ -8,11 +8,17 @@ export function getCookies(key: string) {
   }
 }
 
-export function setCookies(key: string, value: string) {
+export function setCookies(
+  key: string,
+  value: { id: string; amount: number }[],
+) {
   return Cookies.set(key, JSON.stringify(value));
 }
 
-export function updateCookies(key: string, value: string) {
+export function updateCookies(
+  key: string,
+  value: { id: string; amount: number }[],
+) {
   setCookies(key, value);
   return getCookies(key);
 }
