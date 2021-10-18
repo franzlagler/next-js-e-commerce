@@ -2,7 +2,6 @@ import { css } from '@emotion/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import cartImg from '../public/images/cart.svg';
-import logo from '../public/images/logo.png';
 
 const navContainerStyle = css`
   position: fixed;
@@ -13,7 +12,7 @@ const navContainerStyle = css`
   border-bottom: 2px solid black;
 `;
 
-const navBarStyle = css`
+const navbarStyle = css`
   position: relative;
   display: flex;
   align-items: center;
@@ -74,15 +73,13 @@ function Navbar(props: {
 }) {
   return (
     <nav css={navContainerStyle}>
-      <ul css={navBarStyle}>
+      <ul css={navbarStyle}>
         <li css={navbarItemStyle}>
-          <div css={logoContainer}>
-            <Link href="/">
-              <a>
-                <Image src={logo} />
-              </a>
-            </Link>
-          </div>
+          <Link href="/">
+            <a>
+              <Image src="/images/logo.png" width="150px" height="50px" />
+            </a>
+          </Link>
         </li>
         <li css={navbarItemStyle}>
           <Link href="/products">
