@@ -41,6 +41,10 @@ const navbarLinkStyle = css`
   }
 `;
 
+const logoContainer = css`
+  width: 100px;
+`;
+
 const cartContainerStyle = css`
   position: relative;
   width: 100%;
@@ -72,11 +76,13 @@ function Navbar(props: {
     <nav css={navContainerStyle}>
       <ul css={navBarStyle}>
         <li css={navbarItemStyle}>
-          <Link href="/">
-            <a>
-              <Image src={logo} />
-            </a>
-          </Link>
+          <div css={logoContainer}>
+            <Link href="/">
+              <a>
+                <Image src={logo} />
+              </a>
+            </Link>
+          </div>
         </li>
         <li css={navbarItemStyle}>
           <Link href="/products">
